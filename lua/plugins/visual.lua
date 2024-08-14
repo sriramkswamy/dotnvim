@@ -19,6 +19,9 @@ return {
       }
   },
 
+  -- Useful status updates for LSP
+  -- { "j-hui/fidget.nvim", opts = {} },
+
   { -- using lazy.nvim
     'akinsho/bufferline.nvim',
     version = "*",

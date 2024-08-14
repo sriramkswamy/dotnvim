@@ -177,19 +177,6 @@ return {
   { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-      -- Automatically install LSPs to stdpath for neovim
-      -- { 'williamboman/mason.nvim', opts = {} },
-      -- { 'williamboman/mason-lspconfig.nvim',
-      --   config = function ()
-      --     require("mason-lspconfig").setup {
-      --       ensure_installed = { "lua_ls", "pyright" },
-      --     }
-      --   end
-      -- },
-
-      -- Useful status updates for LSP
-      -- { 'j-hui/fidget.nvim', opts = {} },
-
       -- Additional lua configuration
       { 'folke/neodev.nvim', opts = {} },
       -- Additional json configuration and vscode integration
