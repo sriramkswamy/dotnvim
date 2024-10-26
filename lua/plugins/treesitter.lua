@@ -18,7 +18,7 @@ else
         -- See `:help nvim-treesitter`
         require('nvim-treesitter.configs').setup {
           -- Add languages to be installed here that you want installed for treesitter
-          ensure_installed = { 'c', 'cpp', 'python', 'lua', 'bash', 'html', 'markdown', 'markdown_inline', 'help' },
+          ensure_installed = { 'c', 'cpp', 'python', 'lua', 'bash', 'html', 'json', 'yaml', 'markdown', 'markdown_inline', 'help' },
 
           -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
           auto_install = false,
@@ -71,10 +71,10 @@ else
             swap = {
               enable = true,
               swap_next = {
-                ['cxn'] = '@parameter.inner',
+                ['cxi'] = '@parameter.inner',
               },
               swap_previous = {
-                ['cxp'] = '@parameter.inner',
+                ['cxo'] = '@parameter.inner',
               },
             },
           },
