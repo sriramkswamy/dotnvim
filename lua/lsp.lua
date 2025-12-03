@@ -89,24 +89,23 @@ local on_attach = function(client, bufnr)
 end
 
 -- setup language servers
-local nvim_lsp = require 'lspconfig'
-local nvim_lsp_configs = require 'lspconfig.configs'
+-- local nvim_lsp_configs = require 'lspconfig.configs'
 vim.g.inlay_hints_visible = true
 
 -- clangd
-nvim_lsp['clangd'].setup {
+vim.lsp.config('clangd', {
   cmd = { 'clangd', '--background-index', '--clang-tidy', '--inlay-hints=true' },
   on_attach = on_attach,
-}
+})
 
 -- pyright
-nvim_lsp['pyright'].setup {
+vim.lsp.config('pyright', {
   cmd = { "pyright-langserver", "--stdio" },
   on_attach = on_attach,
-}
+})
 
 -- lua
-nvim_lsp['lua_ls'].setup {
+vim.lsp.config('lua_ls', {
   settings = {
     Lua = {
       runtime = {
@@ -128,93 +127,93 @@ nvim_lsp['lua_ls'].setup {
     },
   },
   on_attach = on_attach
-}
+})
 
 -- viml
-nvim_lsp['vimls'].setup {
+vim.lsp.config('vimls', {
   on_attach = on_attach
-}
+})
 
 -- markdown
-if not nvim_lsp_configs.markdown then
-  nvim_lsp_configs.markdown = {
-    default_config = {
-      cmd = { 'marksman', 'server' },
-      root_dir = nvim_lsp.util.root_pattern(".git", ".marksman.toml"),
-      single_file_support = true,
-      filetypes = { 'markdown' },
-    },
-  }
-end
-nvim_lsp.markdown.setup{
+-- if not nvim_lsp_configs.markdown then
+--   nvim_lsp_configs.markdown = {
+--     default_config = {
+--       cmd = { 'marksman', 'server' },
+--       root_dir = nvim_lsp.util.root_pattern(".git", ".marksman.toml"),
+--       single_file_support = true,
+--       filetypes = { 'markdown' },
+--     },
+--   }
+-- end
+vim.lsp.config('markdown', {
   cmd = { 'marksman', 'server' },
   on_attach = on_attach,
-}
+})
 
 -- jdtls LSP configuration
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
 local workspace_dir = vim.env.HOME .. '/jdtls-workspace/' .. project_name
 
-if not nvim_lsp_configs.jdtls then
-  nvim_lsp_configs.jdtls = {
-    default_config = {
-      -- The command that starts the language server
-      -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
-      cmd = {
-
-        -- CONFIGURE
-        'java', -- or '/path/to/java17_or_newer/bin/java'
-        -- depends on if `java` is in your $PATH env variable and if it points to the right version.
-
-        '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-        '-Dosgi.bundles.defaultStartLevel=4',
-        '-Declipse.product=org.eclipse.jdt.ls.core.product',
-        '-Dlog.protocol=true',
-        '-Dlog.level=ALL',
-        '-Xmx1g',
-        '--add-modules=ALL-SYSTEM',
-        '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-        '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-
-        -- CONFIGURE
-        -- ~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher
-        '-jar', '/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
-        -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher.cocoa.macosx.aarch64_1.2.1100.v20240613-2013.jar',
-        -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
-        -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
-        -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
-        -- Must point to the                                                     Change this to
-        -- eclipse.jdt.ls installation                                           the actual version
-
-
-        -- CONFIGURE
-        -- ~/.local/share/nvim/mason/packages/jdtls/config_mac_arm
-        '-configuration', '/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/jdtls/config_mac_arm',
-        -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
-        -- Must point to the                      Change to one of `linux`, `win` or `mac`
-        -- eclipse.jdt.ls installation            Depending on your system.
-
-
-        -- CONFIGURE
-        -- See `data directory configuration` section in the README
-        '-data', workspace_dir
-      },
-
-      -- CONFIGURE
-      -- This is the default if not provided, you can remove it. Or adjust as needed.
-      -- One dedicated LSP server & client will be started per unique root_dir
-      --
-      -- vim.fs.root requires Neovim 0.10.
-      -- If you're using an earlier version, use: require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
-      -- root_dir = vim.fs.root(0, {".git", "mvnw", "gradlew", ".maven"}),
-      root_dir = nvim_lsp.util.root_pattern(".git", "mvnw", "gradlew", ".maven"),
-
-      single_file_support = true,
-      filetypes = { 'java' },
-    },
-  }
-end
-nvim_lsp.jdtls.setup{
+-- if not nvim_lsp_configs.jdtls then
+--   nvim_lsp_configs.jdtls = {
+--     default_config = {
+--       -- The command that starts the language server
+--       -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
+--       cmd = {
+--
+--         -- CONFIGURE
+--         'java', -- or '/path/to/java17_or_newer/bin/java'
+--         -- depends on if `java` is in your $PATH env variable and if it points to the right version.
+--
+--         '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+--         '-Dosgi.bundles.defaultStartLevel=4',
+--         '-Declipse.product=org.eclipse.jdt.ls.core.product',
+--         '-Dlog.protocol=true',
+--         '-Dlog.level=ALL',
+--         '-Xmx1g',
+--         '--add-modules=ALL-SYSTEM',
+--         '--add-opens', 'java.base/java.util=ALL-UNNAMED',
+--         '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
+--
+--         -- CONFIGURE
+--         -- ~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher
+--         '-jar', '/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
+--         -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher.cocoa.macosx.aarch64_1.2.1100.v20240613-2013.jar',
+--         -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
+--         -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
+--         -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
+--         -- Must point to the                                                     Change this to
+--         -- eclipse.jdt.ls installation                                           the actual version
+--
+--
+--         -- CONFIGURE
+--         -- ~/.local/share/nvim/mason/packages/jdtls/config_mac_arm
+--         '-configuration', '/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/jdtls/config_mac_arm',
+--         -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
+--         -- Must point to the                      Change to one of `linux`, `win` or `mac`
+--         -- eclipse.jdt.ls installation            Depending on your system.
+--
+--
+--         -- CONFIGURE
+--         -- See `data directory configuration` section in the README
+--         '-data', workspace_dir
+--       },
+--
+--       -- CONFIGURE
+--       -- This is the default if not provided, you can remove it. Or adjust as needed.
+--       -- One dedicated LSP server & client will be started per unique root_dir
+--       --
+--       -- vim.fs.root requires Neovim 0.10.
+--       -- If you're using an earlier version, use: require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
+--       -- root_dir = vim.fs.root(0, {".git", "mvnw", "gradlew", ".maven"}),
+--       root_dir = nvim_lsp.util.root_pattern(".git", "mvnw", "gradlew", ".maven"),
+--
+--       single_file_support = true,
+--       filetypes = { 'java' },
+--     },
+--   }
+-- end
+vim.lsp.config('jdtls', {
   cmd = {
     -- CONFIGURE
     'java', -- or '/path/to/java17_or_newer/bin/java'
@@ -232,7 +231,7 @@ nvim_lsp.jdtls.setup{
 
     -- CONFIGURE
     -- ~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher
-    '-jar', '/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
+    '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
     -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher.cocoa.macosx.aarch64_1.2.1100.v20240613-2013.jar',
     -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
     -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
@@ -243,7 +242,7 @@ nvim_lsp.jdtls.setup{
 
     -- CONFIGURE
     -- ~/.local/share/nvim/mason/packages/jdtls/config_mac_arm
-    '-configuration', '/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/jdtls/config_mac_arm',
+    '-configuration', '~/.local/share/nvim/mason/packages/jdtls/config_mac_arm',
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
     -- Must point to the                      Change to one of `linux`, `win` or `mac`
     -- eclipse.jdt.ls installation            Depending on your system.
@@ -254,4 +253,4 @@ nvim_lsp.jdtls.setup{
     '-data', workspace_dir
   },
   on_attach = on_attach,
-}
+})
