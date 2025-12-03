@@ -35,13 +35,6 @@ return {
     end
   },
 
-  { -- Automatically complete pairs
-    'windwp/nvim-autopairs',
-    config = function()
-      require("nvim-autopairs").setup {}
-    end
-  },
-
   { -- Custom variable segment text objects
     'Julian/vim-textobj-variable-segment',
     dependencies = {

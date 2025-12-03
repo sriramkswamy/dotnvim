@@ -16,7 +16,9 @@ return {
       { "U", function() FzfLua.undotree() end, desc = "Undo Tree"},
       { "ga", function() FzfLua.grep_cword() end, desc = "Grep current word"},
       { "gl", function() FzfLua.loclist() end, desc = "Location List"},
+      { "gL", function() FzfLua.loclist_stack() end, desc = "Location Stack"},
       { "gm", function() FzfLua.quickfix() end, desc = "Quickfix List"},
+      { "gM", function() FzfLua.quickfix_stack() end, desc = "Quickfix Stack"},
       { "gt", function() FzfLua.tags() end, desc = "Tags"},
       { "<C-p>", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
       { "<leader>a", function() FzfLua.nvim_options() end, desc = "Options"},
@@ -56,6 +58,33 @@ return {
       require('mini.misc').setup()
       require('mini.files').setup()
       require('mini.clue').setup()
+      -- require('mini.git').setup()
+      require('mini.pairs').setup()
+      require('mini.bufremove').setup()
+      require('mini.misc').setup()
+      require('mini.trailspace').setup()
+      require('mini.sessions').setup({
+        autoread = false,
+        autowrite = true,
+        -- directory = --<"session" subdir of user data directory from |stdpath()|>,
+        file = 'Session.vim',
+      })
+      require('mini.bracketed').setup({
+        buffer     = { suffix = 'b', options = {} },
+        comment    = { suffix = 'c', options = {} },
+        conflict   = { suffix = 'x', options = {} },
+        diagnostic = { suffix = 'd', options = {} },
+        file       = { suffix = 'f', options = {} },
+        indent     = { suffix = 'i', options = {} },
+        jump       = { suffix = 'j', options = {} },
+        location   = { suffix = 'j', options = {} },
+        oldfile    = { suffix = 'o', options = {} },
+        quickfix   = { suffix = 'k', options = {} },
+        treesitter = { suffix = 't', options = {} },
+        undo       = { suffix = 'u', options = {} },
+        window     = { suffix = 'w', options = {} },
+        yank       = { suffix = 'y', options = {} },
+      })
       -- require('mini.pick').setup({
       --   mappings = {
       --     toggle_info    = '<C-p>',
@@ -161,6 +190,9 @@ return {
     end,
     keys = {
       { "<leader>n", function() MiniFiles.open() end, desc = "File Explorer"},
+      { "Z", function() MiniMisc.zoom() end, desc = "Zoom"},
+      { "<leader><CR>", function() MiniSessions.write() end, desc = "Write Session"},
+      { "<leader><Space>", function() MiniSessions.read() end, desc = "Read Session"},
     },
   },
 

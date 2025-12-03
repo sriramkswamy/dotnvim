@@ -126,29 +126,6 @@ return {
     end
   },
 
-  {
-    'nyngwang/NeoZoom.lua',
-    keys = {
-      { 'Z', '<cmd>NeoZoomToggle<cr>', 'n', silent = true, desc = 'window zoom' }
-    },
-    config = function ()
-      require('neo-zoom').setup {
-        winopts = {
-          offset = {
-            -- NOTE: you can omit `top` and/or `left` to center the floating window.
-            -- top = 0,
-            -- left = 0.17,
-            width = 180,
-            height = 0.90,
-          },
-          -- border = 'double',
-        },
-        -- exclude_filetypes = { 'lspinfo', 'mason', 'lazy', 'fzf', 'qf' },
-        -- exclude_buftypes = { 'terminal' },
-      }
-    end
-  },
-
   { -- better markdown rendering
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {},
