@@ -1,175 +1,167 @@
 return {
 
-  { -- Fuzzy Finder (files, lsp, etc)
-    'nvim-telescope/telescope.nvim',
-    version = '*',
-    dependencies = {
-      'nvim-lua/plenary.nvim'
-    },
-    config = function()
-      -- See `:help telescope` and `:help telescope.setup()`
-      require('telescope').setup({
-        defaults = {
-          mappings = {
-            i = {
-              ['<C-u>'] = false,
-              ['<C-d>'] = false,
-              ['<C-j>'] = require('telescope.actions').move_selection_next,
-              ['<C-k>'] = require('telescope.actions').move_selection_previous,
-              ['<C-l>'] = require('telescope.actions').send_to_loclist,
-              ['<C-h>'] = require('telescope.actions').send_to_qflist,
-              -- ['<C-h>'] = "which-key"
-            },
-          },
-        },
-      })
-
-      -- Enable telescope fzf native, if installed
-      pcall(require('telescope').load_extension, 'fzf')
-
-      -- See `:help telescope.builtin`
-      vim.keymap.set('n', 'g/', function()
-        -- You can pass additional configuration to telescope to change theme, layout, etc.
-        require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-          winblend = 10,
-          previewer = false,
-        })
-      end, { desc = 'Fuzzily search in current buffer' })
-
-      -- Other keymaps
-      vim.keymap.set('n', 'ga', require('telescope.builtin').grep_string, { desc = 'search current word' })
-      vim.keymap.set('n', 'gt', require('telescope.builtin').tags, { desc = 'search tags' })
-      vim.keymap.set('n', 'gl', require('telescope.builtin').loclist, { desc = 'search location list' })
-      vim.keymap.set('n', 'gm', require('telescope.builtin').quickfix, { desc = 'search quickfix' })
-      vim.keymap.set('n', 'cot', require('telescope.builtin').filetypes, { desc = 'change filetype' })
-      vim.keymap.set('n', '<C-p>', require('telescope.builtin').jumplist, { desc = 'jump list' })
-      vim.keymap.set('n', '<C-y>', require('telescope.builtin').registers, { desc = 'registers' })
-      vim.keymap.set('n', '<leader>j', require('telescope.builtin').commands, { desc = 'vim commands' })
-      vim.keymap.set('n', '<leader>k', require('telescope.builtin').buffers, { desc = 'open buffers' })
-      vim.keymap.set('n', '<leader>\\', require('telescope.builtin').tags, { desc = 'search tags' })
-      vim.keymap.set('n', '<leader>d', require('telescope.builtin').git_files, { desc = 'search git files' })
-      vim.keymap.set('n', '<leader>f', require('telescope.builtin').find_files, { desc = 'search files' })
-      vim.keymap.set('n', '<leader>s', require('telescope.builtin').live_grep, { desc = 'search with grep' })
-      vim.keymap.set('n', '<leader>i', require('telescope.builtin').diagnostics, { desc = 'diagnostics info' })
-      vim.keymap.set('n', '<leader>x', require('telescope.builtin').help_tags, { desc = 'search help' })
-      vim.keymap.set('n', '<leader>.', require('telescope.builtin').colorscheme, { desc = 'search colorscheme' })
-      vim.keymap.set('n', '<leader>,', require('telescope.builtin').keymaps, { desc = 'search keymaps' })
-      vim.keymap.set('n', '<leader>/', require('telescope.builtin').oldfiles, { desc = 'recent files' })
-      vim.keymap.set('n', '<leader>;', require('telescope.builtin').command_history, { desc = 'command history' })
-
-    end
-  },
-
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-  -- Only load if `make` is available. Make sure you have the system
-  -- requirements installed.
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
-    build = 'make',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim'
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- or if using mini.icons/mini.nvim
+    -- dependencies = { "nvim-mini/mini.icons" },
+    ---@module "fzf-lua"
+    ---@type fzf-lua.Config|{}
+    ---@diagnostics disable: missing-fields
+    opts = {},
+    ---@diagnostics enable: missing-fields
+    keys = {
+      { "t", function() FzfLua.lsp_document_symbols() end, desc = "Document Symbols"},
+      { "U", function() FzfLua.undotree() end, desc = "Undo Tree"},
+      { "ga", function() FzfLua.grep_cword() end, desc = "Grep current word"},
+      { "gl", function() FzfLua.loclist() end, desc = "Location List"},
+      { "gm", function() FzfLua.quickfix() end, desc = "Quickfix List"},
+      { "gt", function() FzfLua.tags() end, desc = "Tags"},
+      { "<C-p>", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
+      { "<leader>a", function() FzfLua.nvim_options() end, desc = "Options"},
+      { "<leader>c", function() FzfLua.lsp_workspace_symbols() end, desc = "Workspace Symbols"},
+      { "<leader>d", function() FzfLua.git_files() end, desc = "Git Files"},
+      { "<leader>f", function() FzfLua.combine({pickers="oldfiles;files"}) end, desc = "Files"},
+      { "<leader>i", function() FzfLua.combine({pickers="diagnostics_document;diagnostics_workspace"}) end, desc = "Diagnostics"},
+      { "<leader>j", function() FzfLua.commands() end, desc = "Commands"},
+      { "<leader>k", function() FzfLua.buffers() end, desc = "Buffers"},
+      { "<leader>r", function() FzfLua.lsp_references() end, desc = "References"},
+      { "<leader>s", function() FzfLua.live_grep() end, desc = "Live Grep"},
+      { "<leader>x", function() FzfLua.helptags() end, desc = "Help"},
+      { "<leader>,", function() FzfLua.keymaps() end, desc = "Keymaps"},
+      { "<leader>;", function() FzfLua.command_history() end, desc = "Command History"},
+      { "<leader>/", function() FzfLua.search_history() end, desc = "Search History"},
+      { "<leader>.", function() FzfLua.combine({pickers="registers;marks"}) end, desc = "Registers/Marks"},
     },
-    cond = function()
-      return vim.fn.executable 'make' == 1
-    end,
   },
 
-  { -- undo with telescope
-    'debugloop/telescope-undo.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-    },
-    config = function()
-      require('telescope').setup({
-        extensions = {
-          undo = {
-            -- telescope-undo.nvim config, see below
-          },
+  { -- multiple editing, visual, and settings tweaks
+    'nvim-mini/mini.nvim',
+    version = '*',
+    config = function ()
+      -- Centered on screen
+      local win_config = function()
+        local height = math.floor(0.618 * vim.o.lines)
+        local width = math.floor(0.618 * vim.o.columns)
+        return {
+          anchor = 'NW', height = height, width = width,
+          row = math.floor(0.5 * (vim.o.lines - height)),
+          col = math.floor(0.5 * (vim.o.columns - width)),
+        }
+      end,
+      require('mini.bufremove').setup()
+      require('mini.indentscope').setup()
+      require('mini.cursorword').setup()
+      require('mini.misc').setup()
+      require('mini.files').setup()
+      require('mini.clue').setup()
+      -- require('mini.pick').setup({
+      --   mappings = {
+      --     toggle_info    = '<C-p>',
+      --     move_down      = '<C-j>',
+      --     move_up        = '<C-k>',
+      --   },
+      --   window = { config = win_config }
+      -- })
+      -- require('mini.extra').setup()
+      MiniMisc.setup_auto_root()
+      -- require('mini.files').setup({
+      --   vim.keymap.set('n', '<leader>N', require('mini.files').open(), { silent = true, desc = 'file column edit' })
+      -- })
+      require('mini.surround').setup({
+        -- Module mappings. Use `''` (empty string) to disable one.
+        mappings = {
+          add = 'ys', -- Add surrounding in Normal and Visual modes
+          delete = 'ds', -- Delete surrounding
+          find = '', -- Find surrounding (to the right)
+          find_left = '', -- Find surrounding (to the left)
+          highlight = '', -- Highlight surrounding
+          replace = 'cs', -- Replace surrounding
+          update_n_lines = '', -- Update `n_lines`
+
+          suffix_last = 'l', -- Suffix to search with "prev" method
+          suffix_next = 'n', -- Suffix to search with "next" method
         },
       })
-      require('telescope').load_extension('undo')
-      vim.keymap.set('n', 'U', '<cmd>Telescope undo<cr>')
+      require('mini.trailspace').setup()
+      require('mini.basics').setup({
+        -- Options. Set to `false` to disable.
+        options = {
+          -- Basic options ('termguicolors', 'number', 'ignorecase', and many more)
+          basic = false,
+
+          -- Extra UI features ('winblend', 'cmdheight=0', ...)
+          extra_ui = false,
+
+          -- Presets for window borders ('single', 'double', ...)
+          win_borders = 'default',
+        },
+
+        -- Mappings. Set to `false` to disable.
+        mappings = {
+          -- Basic mappings (better 'jk', save with Ctrl+S, ...)
+          basic = false,
+
+          -- Prefix for mappings that toggle common options ('wrap', 'spell', ...).
+          -- Supply empty string to not create these mappings.
+          option_toggle_prefix = [[co]],
+
+          -- Window navigation with <C-hjkl>, resize with <C-arrow>
+          windows = false,
+
+          -- Move cursor in Insert, Command, and Terminal mode with <M-hjkl>
+          move_with_alt = false,
+        },
+      })
+      require('mini.align').setup({
+        -- Module mappings. Use `''` (empty string) to disable one.
+        mappings = {
+          start = 'go',
+          start_with_preview = 'gO',
+        },
+      })
+      local hipatterns = require('mini.hipatterns')
+      hipatterns.setup({
+        highlighters = {
+          -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+          fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+          hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
+          todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
+          note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
+
+          -- Highlight hex color strings (`#rrggbb`) using that color
+          hex_color = hipatterns.gen_highlighter.hex_color(),
+        },
+      })
+      -- require('mini.splitjoin').setup({
+      --   -- Module mappings. Use `''` (empty string) to disable one.
+      --   -- Created for both Normal and Visual modes.
+      --   mappings = {
+      --     toggle = 'gR',
+      --     split = '',
+      --     join = '',
+      --   },
+      -- })
+      require('mini.ai').setup({
+        -- Table with textobject id as fields, textobject specification as values.
+        -- Also use this to disable builtin textobjects. See |MiniAi.config|.
+        custom_textobjects = {
+          -- Whole buffer
+          a = function()
+            local from = { line = 1, col = 1 }
+            local to = {
+              line = vim.fn.line('$'),
+              col = math.max(vim.fn.getline('$'):len(), 1)
+            }
+            return { from = from, to = to }
+          end
+        }
+      })
     end,
-  },
-
-  { -- navigate tabs with telescope
-    'LukasPietzschmann/telescope-tabs',
-    dependencies = {
-      'nvim-telescope/telescope.nvim',
-    },
     keys = {
-      { '<leader>a', '<cmd>Telescope telescope-tabs list_tabs<cr>', 'n', silent = true, desc = 'switch tabs' }
-    }
-  },
-
-  { -- session management
-    'jedrzejboczar/possession.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
+      { "<leader>n", function() MiniFiles.open() end, desc = "File Explorer"},
     },
-    config = function ()
-      require('possession').setup {
-        silent = false,
-        load_silent = true,
-        debug = false,
-        logfile = false,
-        prompt_no_cr = false,
-        autosave = {
-          current = true,  -- or fun(name): boolean
-          tmp = true,  -- or fun(): boolean
-          tmp_name = 'tmp',
-          on_load = true,
-          on_quit = true,
-        },
-        commands = {
-          save = 'PossessionSave',
-          load = 'PossessionLoad',
-          close = 'PossessionClose',
-          delete = 'PossessionDelete',
-          show = 'PossessionShow',
-          list = 'PossessionList',
-          migrate = 'PossessionMigrate',
-        },
-        hooks = {
-          before_save = function(name) return {} end,
-          after_save = function(name, user_data, aborted) end,
-          before_load = function(name, user_data) return user_data end,
-          after_load = function(name, user_data) end,
-        },
-        plugins = {
-          close_windows = {
-            hooks = {'before_save', 'before_load'},
-            preserve_layout = true,  -- or fun(win): boolean
-            match = {
-              floating = true,
-              buftype = {},
-              filetype = {},
-              custom = false,  -- or fun(win): boolean
-            },
-          },
-          delete_hidden_buffers = {
-            hooks = {
-              'before_load',
-              vim.o.sessionoptions:match('buffer') and 'before_save',
-            },
-            force = false,  -- or fun(buf): boolean
-          },
-          nvim_tree = true,
-          tabby = true,
-          dap = true,
-          delete_buffers = false,
-        },
-      }
-      require('telescope').load_extension('possession')
-      vim.keymap.set('n', '<leader><space>',
-        function () require('telescope').extensions.possession.list() end,
-        { silent = true, desc = 'load session'}
-      )
-    end
   },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
@@ -276,5 +268,15 @@ return {
       })
     end,
   },
+
+  { -- background runner
+    'skywind3000/asyncrun.vim',
+    keys = {
+      { '<leader>u', '<cmd>AsyncStop<cr>', 'n', silent = true, desc = 'background run stop' }
+    },
+    config = function ()
+      vim.cmd("let g:asyncrun_open = 10")
+    end
+  }
 
 }

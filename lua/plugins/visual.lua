@@ -1,8 +1,5 @@
 return {
 
-  -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', opts = {} },
-
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -18,9 +15,6 @@ return {
       -- "rcarriga/nvim-notify",
       }
   },
-
-  -- Useful status updates for LSP
-  -- { "j-hui/fidget.nvim", opts = {} },
 
   { -- using lazy.nvim
     'akinsho/bufferline.nvim',
@@ -104,15 +98,7 @@ return {
         },
         color_overrides = {},
         custom_highlights = {},
-        integrations = {
-          cmp = true,
-          gitsigns = true,
-          nvimtree = true,
-          telescope = true,
-          notify = false,
-          mini = false,
-          -- For more plugins integrations please scroll down (https://github.com/catppuccin/nvim#integrations)
-        },
+        auto_integrations = true,
       })
       -- setup must be called before loading
       vim.cmd.colorscheme "catppuccin"
@@ -166,7 +152,7 @@ return {
   { -- better markdown rendering
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {},
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.nvim' }, -- if you use the mini.nvim suite
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
   },
 
 }

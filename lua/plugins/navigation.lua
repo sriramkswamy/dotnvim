@@ -1,22 +1,5 @@
 return {
 
-  { -- File tree navigator
-    'nvim-neo-tree/neo-tree.nvim',
-    version = '*',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'MunifTanjim/nui.nvim',
-    },
-    keys = {
-      { '<leader>n', '<cmd>Neotree float %<CR>', 'n', desc = 'File Navigator' }
-    },
-    config = function ()
-      -- Unless you are still migrating, remove the deprecated commands from v1.x
-      vim.cmd("let g:neo_tree_remove_legacy_commands = 1")
-      require('neo-tree').setup {}
-    end,
-  },
-
   { -- Better navigation across marks, terminals, and tmux
     'ThePrimeagen/harpoon',
     dependencies = {
@@ -36,7 +19,7 @@ return {
     end
   },
 
-  {
+  { -- jump to anything
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = {},
@@ -115,15 +98,5 @@ return {
       })
     end
   },
-
-  { -- background runner
-    'skywind3000/asyncrun.vim',
-    keys = {
-      { '<leader>u', '<cmd>AsyncStop<cr>', 'n', silent = true, desc = 'background run stop' }
-    },
-    config = function ()
-      vim.cmd("let g:asyncrun_open = 10")
-    end
-  }
 
 }
