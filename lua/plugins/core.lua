@@ -63,6 +63,7 @@ return {
       require('mini.bufremove').setup()
       require('mini.misc').setup()
       require('mini.trailspace').setup()
+      require('mini.statusline').setup()
       require('mini.sessions').setup({
         autoread = false,
         autowrite = true,
@@ -95,9 +96,6 @@ return {
       -- })
       -- require('mini.extra').setup()
       MiniMisc.setup_auto_root()
-      -- require('mini.files').setup({
-      --   vim.keymap.set('n', '<leader>N', require('mini.files').open(), { silent = true, desc = 'file column edit' })
-      -- })
       require('mini.surround').setup({
         -- Module mappings. Use `''` (empty string) to disable one.
         mappings = {

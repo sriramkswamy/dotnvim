@@ -105,27 +105,6 @@ return {
     end,
   },
 
-  { -- Set lualine as statusline
-    'nvim-lualine/lualine.nvim',
-    -- See `:help lualine.txt`
-    opts = {
-      options = {
-        icons_enabled = false,
-        theme = 'onedark',
-        component_separators = '|',
-        section_separators = '',
-      },
-    },
-    config = function ()
-      local function session_name()
-        return require('possession.session').get_session_name() or ''
-      end
-      require('lualine').setup {
-        sections = { lualine_a = { session_name } },
-      }
-    end
-  },
-
   { -- better markdown rendering
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {},
