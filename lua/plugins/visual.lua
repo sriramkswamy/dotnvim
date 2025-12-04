@@ -108,6 +108,7 @@ return {
   { -- better markdown rendering
     'MeanderingProgrammer/render-markdown.nvim',
     opts = {},
+    ft = { "markdown" },
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
   },
 

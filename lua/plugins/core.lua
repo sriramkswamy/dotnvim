@@ -194,18 +194,6 @@ return {
     },
   },
 
-  -- NOTE: This is where your plugins related to LSP can be installed.
-  --  The configuration is done below. Search for lspconfig to find it below.
-  { -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
-    dependencies = {
-      -- Additional lua configuration
-      { 'folke/neodev.nvim', opts = {} },
-      -- Additional json configuration and vscode integration
-      { 'folke/neoconf.nvim', opts = {} },
-    },
-  },
-
   {
     'glepnir/lspsaga.nvim',
     dependencies = {
@@ -282,21 +270,6 @@ return {
       fuzzy = { implementation = "prefer_rust_with_warning" }
     },
     opts_extend = { "sources.default" }
-  },
-
-  { -- Folding based on code
-    'kevinhwang91/nvim-ufo',
-    dependencies = {
-      'kevinhwang91/promise-async',
-      'neovim/nvim-lspconfig',
-    },
-    config = function()
-      require('ufo').setup({
-        provider_selector = function(bufnr, filetype, buftype)
-          return { 'indent', 'treesitter' }
-        end
-      })
-    end,
   },
 
   { -- background runner

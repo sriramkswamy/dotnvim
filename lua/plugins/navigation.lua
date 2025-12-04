@@ -43,7 +43,7 @@ return {
             pattern = "^"
           })
         end,
-        desc = "Flash Treesitter",
+        desc = "Flash Line",
       },
       {
         "r",
