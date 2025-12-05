@@ -3,7 +3,7 @@ return {
   {
     "ibhagwan/fzf-lua",
     -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" },
     -- or if using mini.icons/mini.nvim
     -- dependencies = { "nvim-mini/mini.icons" },
     ---@module "fzf-lua"
@@ -20,8 +20,8 @@ return {
       { "gm", function() FzfLua.quickfix() end, desc = "Quickfix List"},
       { "gM", function() FzfLua.quickfix_stack() end, desc = "Quickfix Stack"},
       { "gt", function() FzfLua.tags() end, desc = "Tags"},
+      { "coo", function() FzfLua.nvim_options() end, desc = "Options"},
       { "<C-p>", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
-      { "<leader>a", function() FzfLua.nvim_options() end, desc = "Options"},
       { "<leader>c", function() FzfLua.lsp_workspace_symbols() end, desc = "Workspace Symbols"},
       { "<leader>d", function() FzfLua.git_files() end, desc = "Git Files"},
       { "<leader>f", function() FzfLua.combine({pickers="oldfiles;files"}) end, desc = "Files"},
@@ -64,6 +64,7 @@ return {
       require('mini.misc').setup()
       require('mini.trailspace').setup()
       require('mini.statusline').setup()
+      require('mini.icons').setup()
       require('mini.sessions').setup({
         autoread = false,
         autowrite = true,
