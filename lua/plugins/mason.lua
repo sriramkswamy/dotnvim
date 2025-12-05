@@ -14,7 +14,8 @@ return {
           "jsonls",
           "bashls",
           "html",
-          "cssls"
+          "cssls",
+          "copilot"
         },
       }
     end

@@ -29,7 +29,7 @@ vim.o.complete = ".,w,b,u"
 
 -- Set completeopt to have a better completion experience
 -- vim.o.completeopt = 'menuone,preview,longest'
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = 'menuone,noselect,popup'
 
 -- Decrease update time
 vim.o.updatetime = 250

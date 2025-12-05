@@ -3,7 +3,7 @@ return {
   {
     "ibhagwan/fzf-lua",
     -- optional for icon support
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" },
     -- or if using mini.icons/mini.nvim
     -- dependencies = { "nvim-mini/mini.icons" },
     ---@module "fzf-lua"
@@ -11,6 +11,9 @@ return {
     ---@diagnostics disable: missing-fields
     opts = {},
     ---@diagnostics enable: missing-fields
+    config = function ()
+      require('fzf-lua').register_ui_select()
+    end,
     keys = {
       { "+", function() vim.lsp.buf.add_workspace_folder() end, desc = "LSP Add Workspace Folder"},
       { "-", function() vim.lsp.buf.remove_workspace_folder() end, desc = "LSP Remove Workspace Folder"},
@@ -49,7 +52,7 @@ return {
       { "<leader>/", function() FzfLua.search_history() end, desc = "Search History"},
       { "<leader>.", function() FzfLua.combine({pickers="registers;marks"}) end, desc = "Registers/Marks"},
       { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
-      { "<leader><CR>", function() FzfLua.live_grep() end, desc = "Live Grep"},
+      { "<leader><Space>", function() FzfLua.live_grep() end, desc = "Live Grep"},
     },
   },
 
@@ -66,8 +69,8 @@ return {
       require('mini.pairs').setup()
       require('mini.bufremove').setup()
       require('mini.misc').setup()
-      require('mini.trailspace').setup()
       require('mini.statusline').setup()
+      require('mini.icons').setup()
       require('mini.bracketed').setup({
         buffer     = { suffix = 'b', options = {} },
         comment    = { suffix = 'c', options = {} },
@@ -183,7 +186,9 @@ return {
 
   { -- Fast auto completion
     'saghen/blink.cmp',
-    dependencies = { 'rafamadriz/friendly-snippets' },
+    dependencies = {
+      { 'rafamadriz/friendly-snippets' },
+    },
 
     -- use a release tag to download pre-built binaries
     version = '1.*',
@@ -207,7 +212,9 @@ return {
       -- C-k: Toggle signature help (if signature.enabled = true)
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
-      keymap = { preset = 'super-tab' },
+      keymap = {
+        preset = 'super-tab',
+      },
 
       appearance = {
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
