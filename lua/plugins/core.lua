@@ -16,12 +16,11 @@ return {
       { "-", function() vim.lsp.buf.remove_workspace_folder() end, desc = "LSP Remove Workspace Folder"},
       { "#", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = "LSP List Workspace Folders"},
       { "t", function() FzfLua.lsp_document_symbols() end, desc = "LSP Document Symbols"},
-      { "T", function() FzfLua.lsp_finder() end, desc = "LSP Finder"},
-      { "H", function() vim.lsp.buf.hover() end, desc = "LSP Documentation"},
-      { "J", function() FzfLua.lsp_definitions() end, desc = "LSP Definitions"},
+      { "T", function() FzfLua.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
       { "U", function() FzfLua.undotree() end, desc = "Undo Tree"},
       { "ga", function() FzfLua.grep_cword() end, desc = "Grep current word"},
-      { "gd", function() FzfLua.lsp_declarations() end, desc = "LSP Declarations"},
+      { "gd", function() FzfLua.lsp_definitions() end, desc = "LSP Definitions"},
+      { "gD", function() FzfLua.lsp_declarations() end, desc = "LSP Declarations"},
       { "gi", function() FzfLua.lsp_implementations() end, desc = "LSP Implementations"},
       { "gI", function() FzfLua.lsp_incoming_calls() end, desc = "LSP Incoming Calls"},
       { "gO", function() FzfLua.lsp_outgoing_calls() end, desc = "LSP Outgoing Calls"},
@@ -29,13 +28,13 @@ return {
       { "gL", function() FzfLua.loclist_stack() end, desc = "Location Stack"},
       { "gm", function() FzfLua.quickfix() end, desc = "Quickfix List"},
       { "gM", function() FzfLua.quickfix_stack() end, desc = "Quickfix Stack"},
-      { "gR", function() vim.lsp.buf.rename() end, desc = "LSP Rename"},
+      { "gr", function() vim.lsp.buf.rename() end, desc = "LSP Rename"},
       { "gt", function() FzfLua.combine({pickers="lsp_type_sub;lsp_type_super"})() end, desc = "LSP Types"},
       { "gT", function() FzfLua.lsp_typedefs() end, desc = "LSP Typedefs"},
       { "coo", function() FzfLua.nvim_options() end, desc = "Options"},
       { "<C-p>", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
       { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
-      { "<leader>c", function() FzfLua.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
+      { "<leader>c", function() FzfLua.lsp_finder() end, desc = "LSP Finder"},
       { "<leader>d", function() FzfLua.git_files() end, desc = "Git Files"},
       { "<leader>f", function() FzfLua.combine({pickers="oldfiles;files"}) end, desc = "Files"},
       { "<leader>h", function() FzfLua.lsp_code_actions() end, desc = "LSP Code Actions"},
@@ -43,7 +42,6 @@ return {
       { "<leader>j", function() FzfLua.commands() end, desc = "Commands"},
       { "<leader>k", function() FzfLua.buffers() end, desc = "Buffers"},
       { "<leader>r", function() FzfLua.lsp_references() end, desc = "LSP References"},
-      { "<leader>s", function() FzfLua.live_grep() end, desc = "Live Grep"},
       { "<leader>t", function() FzfLua.tags() end, desc = "Tags"},
       { "<leader>x", function() FzfLua.helptags() end, desc = "Help"},
       { "<leader>,", function() FzfLua.keymaps() end, desc = "Keymaps"},
@@ -51,6 +49,7 @@ return {
       { "<leader>/", function() FzfLua.search_history() end, desc = "Search History"},
       { "<leader>.", function() FzfLua.combine({pickers="registers;marks"}) end, desc = "Registers/Marks"},
       { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
+      { "<leader><CR>", function() FzfLua.live_grep() end, desc = "Live Grep"},
     },
   },
 
@@ -58,35 +57,17 @@ return {
     'nvim-mini/mini.nvim',
     version = '*',
     config = function ()
-      -- Centered on screen
-      local win_config = function()
-        local height = math.floor(0.618 * vim.o.lines)
-        local width = math.floor(0.618 * vim.o.columns)
-        return {
-          anchor = 'NW', height = height, width = width,
-          row = math.floor(0.5 * (vim.o.lines - height)),
-          col = math.floor(0.5 * (vim.o.columns - width)),
-        }
-      end,
       require('mini.bufremove').setup()
       require('mini.indentscope').setup()
       require('mini.cursorword').setup()
       require('mini.misc').setup()
       require('mini.files').setup()
       require('mini.clue').setup()
-      -- require('mini.git').setup()
       require('mini.pairs').setup()
       require('mini.bufremove').setup()
       require('mini.misc').setup()
       require('mini.trailspace').setup()
       require('mini.statusline').setup()
-      -- require('mini.icons').setup()
-      require('mini.sessions').setup({
-        autoread = false,
-        autowrite = true,
-        -- directory = --<"session" subdir of user data directory from |stdpath()|>,
-        file = 'Session.vim',
-      })
       require('mini.bracketed').setup({
         buffer     = { suffix = 'b', options = {} },
         comment    = { suffix = 'c', options = {} },
@@ -103,15 +84,6 @@ return {
         window     = { suffix = 'w', options = {} },
         yank       = { suffix = 'y', options = {} },
       })
-      -- require('mini.pick').setup({
-      --   mappings = {
-      --     toggle_info    = '<C-p>',
-      --     move_down      = '<C-j>',
-      --     move_up        = '<C-k>',
-      --   },
-      --   window = { config = win_config }
-      -- })
-      -- require('mini.extra').setup()
       MiniMisc.setup_auto_root()
       require('mini.surround').setup({
         -- Module mappings. Use `''` (empty string) to disable one.
@@ -178,15 +150,15 @@ return {
           hex_color = hipatterns.gen_highlighter.hex_color(),
         },
       })
-      -- require('mini.splitjoin').setup({
-      --   -- Module mappings. Use `''` (empty string) to disable one.
-      --   -- Created for both Normal and Visual modes.
-      --   mappings = {
-      --     toggle = 'gR',
-      --     split = '',
-      --     join = '',
-      --   },
-      -- })
+      require('mini.splitjoin').setup({
+        -- Module mappings. Use `''` (empty string) to disable one.
+        -- Created for both Normal and Visual modes.
+        mappings = {
+          toggle = 'gR',
+          split = '',
+          join = '',
+        },
+      })
       require('mini.ai').setup({
         -- Table with textobject id as fields, textobject specification as values.
         -- Also use this to disable builtin textobjects. See |MiniAi.config|.
@@ -202,38 +174,10 @@ return {
           end
         }
       })
-    end,
-    keys = {
-      { "<leader>n", function() MiniFiles.open() end, desc = "File Explorer"},
-      { "Z", function() MiniMisc.zoom() end, desc = "Zoom"},
-      { "<leader><CR>", function() MiniSessions.write() end, desc = "Write Session"},
-      { "<leader><Space>", function() MiniSessions.read() end, desc = "Read Session"},
-    },
-  },
 
-  {
-    'glepnir/lspsaga.nvim',
-    dependencies = {
-      { 'nvim-tree/nvim-web-devicons', opts = {} }
-    },
-    event = 'BufRead',
-    lazy = false,
-    config = function()
-      require('lspsaga').setup({
-        symbol_in_winbar = {
-          enable = false,
-          separator = " ",
-          ignore_patterns={},
-          hide_keyword = true,
-          show_file = true,
-          folder_level = 2,
-          respect_root = false,
-          color_mode = true,
-        },
-        ui = {
-          code_action = '!'
-        }
-      })
+      -- Mappings not lazy loaded
+      vim.keymap.set('n', '<leader>n', function() MiniFiles.open() end, {silent = true, desc = 'File Explorer'})
+      vim.keymap.set('n', 'Z', function() MiniMisc.zoom() end, {silent = true, desc = 'Zoom Window'})
     end,
   },
 
@@ -298,6 +242,32 @@ return {
     config = function ()
       vim.cmd("let g:asyncrun_open = 10")
     end
+  },
+
+  {
+    "rmagatti/goto-preview",
+    dependencies = { "rmagatti/logger.nvim" },
+    event = "BufEnter",
+    config = true, -- necessary as per https://github.com/rmagatti/goto-preview/issues/88
+    keys = {
+      { "J", function() require('goto-preview').goto_preview_definition() end, desc = "LSP Peek Definitions"},
+      { "<BS>", function() require('goto-preview').close_all_win() end, desc = "Close all previews"},
+    }
+  },
+
+  {
+    "rmagatti/auto-session",
+    lazy = false,
+    ---enables autocomplete for opts
+    ---@module "auto-session"
+    ---@type AutoSession.Config
+    opts = {
+      suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
+      -- log_level = 'debug',
+    },
+    keys = {
+      { "<leader><space>", "<cmd>AutoSession toggle<CR>", desc = "Toggle AutoSession" }
+    }
   },
 
 }
