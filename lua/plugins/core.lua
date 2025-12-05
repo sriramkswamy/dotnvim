@@ -266,7 +266,7 @@ return {
       -- log_level = 'debug',
     },
     keys = {
-      { "<leader><space>", "<cmd>AutoSession toggle<CR>", desc = "Toggle AutoSession" }
+      { "H", "<cmd>AutoSession toggle<CR>", desc = "Toggle AutoSession" }
     }
   },
 

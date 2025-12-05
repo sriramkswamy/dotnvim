@@ -48,7 +48,7 @@ return {
       });
     end,
     keys = {
-      { "<leader>a", "<cmd>GrugFar<CR>", desc = "Search and Replace" }
+      { "<leader>s", "<cmd>GrugFar<CR>", desc = "Search and Replace" }
     }
   },
 
