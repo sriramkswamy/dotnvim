@@ -7,7 +7,7 @@ local on_attach = function(client, bufnr)
   end
 
   --- toggle inlay hints
-  vim.g.inlay_hints_visible = false
+  vim.g.inlay_hints_visible = true
   local function toggle_inlay_hints()
     if vim.g.inlay_hints_visible then
       vim.g.inlay_hints_visible = false
@@ -51,76 +51,72 @@ local on_attach = function(client, bufnr)
   })
 
   buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, { buffer = bufnr, noremap = true, silent = true, desc = 'signature help' })
-  vim.keymap.set('n', 'gd', "<cmd>Lspsaga goto_definition<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'goto definition' })
-  vim.keymap.set('n', 'J', "<cmd>Lspsaga peek_definition<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'peek definition' })
-  vim.keymap.set('n', '<BS>', "<cmd>Lspsaga hover_doc ++keep<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'pin doc' })
-  vim.keymap.set('n', 'K', "<cmd>Lspsaga hover_doc<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'hover doc' })
-  -- vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr, noremap = true, silent = true, desc = 'doc' })
-  vim.keymap.set('n', 'gI', vim.lsp.buf.implementation, { buffer = bufnr, noremap = true, silent = true, desc = 'implementation' })
-  vim.keymap.set('n', '+', vim.lsp.buf.add_workspace_folder, { buffer = bufnr, noremap = true, silent = true, desc = 'add workspace folder' })
-  vim.keymap.set('n', '-', vim.lsp.buf.remove_workspace_folder, { buffer = bufnr, noremap = true, silent = true, desc = 'remove workspace folder' })
-  vim.keymap.set('n', '#', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, { buffer = bufnr, noremap = true, silent = true, desc = 'list workspace folders' })
-  vim.keymap.set('n', '<leader>t', "<cmd>Lspsaga peek_type_definition<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'peek type definition' })
-  vim.keymap.set('n', 'gT', "<cmd>Lspsaga goto_type_definition<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'goto type definition' })
-  vim.keymap.set('n', 'gr', "<cmd>Lspsaga rename<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'rename in file' })
-  vim.keymap.set('n', 'gR', "<cmd>Lspsaga rename ++project<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'rename in project' })
-  vim.keymap.set('n', 'ge', "<cmd>Lspsaga show_line_diagnostics<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'show error' })
-  vim.keymap.set('n', 'H', vim.diagnostic.setloclist, { buffer = bufnr, noremap = true, silent = true, desc = 'send errors to location list' })
-  vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'previous diagnostic' })
-  vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'next diagnostic' })
-  vim.keymap.set("n", "[e", function()
-    require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
-  end, { buffer = bufnr, noremap = true, silent = true, desc = 'previous error' })
-  vim.keymap.set("n", "]e", function()
-    require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
-  end, { buffer = bufnr, noremap = true, silent = true, desc = 'next error' })
-  vim.keymap.set('n', '<leader>\'', '<cmd>ClangdSwitchSourceHeader<CR>', { buffer = bufnr, noremap = true, silent = true, desc = 'switch header and source' })
-  vim.keymap.set('n', '<leader>T', "<cmd>Lspsaga lsp_finder<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'find relevant items' })
-  vim.keymap.set('n', '<leader>E', toggle_inlay_hints, { buffer = bufnr, noremap = true, silent = true, desc = 'toggle inlay hints' })
-  vim.keymap.set('n', '<leader>I', toggle_diagnostics, { buffer = bufnr, noremap = true, silent = true, desc = 'toggle diagnostics' })
-  vim.keymap.set('n', 'T', "<cmd>Lspsaga outline<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'symbol outline' })
-  vim.keymap.set('n', '<leader>h', "<cmd>Lspsaga code_action<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'code action' })
-  vim.keymap.set('n', '<C-n>', "<cmd>Lspsaga term_toggle<CR>", { buffer = bufnr, noremap = true, silent = true, desc = 'terminal' })
 end
 
 -- setup language servers
--- local nvim_lsp_configs = require 'lspconfig.configs'
-vim.g.inlay_hints_visible = true
 
 -- clangd
 vim.lsp.config('clangd', {
   cmd = { 'clangd', '--background-index', '--clang-tidy', '--inlay-hints=true' },
+  filetypes = { "cpp", "c" },
+  root_markers = {
+    "compile_commands.json",
+    ".git",
+  },
   on_attach = on_attach,
 })
 
 -- pyright
 vim.lsp.config('pyright', {
   cmd = { "pyright-langserver", "--stdio" },
+  filetypes = { "python" },
+  root_markers = {
+    "pyproject.toml",
+    "setup.py",
+    "setup.cfg",
+    "requirements.txt",
+    "Pipfile",
+    "pyrightconfig.json",
+    ".git",
+  },
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        diagnosticMode = "workspace",
+        useLibraryCodeForTypes = true
+      }
+    }
+  },
   on_attach = on_attach,
 })
 
 -- lua
 vim.lsp.config('lua_ls', {
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  root_markers = {
+    ".luarc.json",
+    ".luarc.jsonc",
+    ".luacheckrc",
+    ".stylua.toml",
+    "stylua.toml",
+    "selene.toml",
+    "selene.yml",
+    ".git",
+  },
   settings = {
     Lua = {
       runtime = {
-        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
         version = 'LuaJIT',
+        path = vim.split(package.path, ";"),
       },
       diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {'vim'},
+        globals = { 'vim' },
       },
       workspace = {
-        -- Make the server aware of Neovim runtime files
         library = vim.api.nvim_get_runtime_file("", true),
       },
-      -- Do not send telemetry data containing a randomized but unique identifier
       telemetry = {
         enable = false,
       },
@@ -131,6 +127,13 @@ vim.lsp.config('lua_ls', {
 
 -- viml
 vim.lsp.config('vimls', {
+  filetypes = { "vim" },
+  root_markers = {
+    "init.vim",
+    "init.lua",
+    ".vimrc",
+    ".git",
+  },
   on_attach = on_attach
 })
 
@@ -147,6 +150,7 @@ vim.lsp.config('vimls', {
 -- end
 vim.lsp.config('markdown', {
   cmd = { 'marksman', 'server' },
+  filetypes = { "markdown" },
   on_attach = on_attach,
 })
 
@@ -214,11 +218,17 @@ local workspace_dir = vim.env.HOME .. '/jdtls-workspace/' .. project_name
 --   }
 -- end
 vim.lsp.config('jdtls', {
+  filetypes = { "java" },
+  root_markers = {
+    "mvnw",
+    "gradlew",
+    ".maven",
+    ".git",
+  },
   cmd = {
     -- CONFIGURE
     'java', -- or '/path/to/java17_or_newer/bin/java'
     -- depends on if `java` is in your $PATH env variable and if it points to the right version.
-
     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
     '-Dosgi.bundles.defaultStartLevel=4',
     '-Declipse.product=org.eclipse.jdt.ls.core.product',
@@ -228,7 +238,6 @@ vim.lsp.config('jdtls', {
     '--add-modules=ALL-SYSTEM',
     '--add-opens', 'java.base/java.util=ALL-UNNAMED',
     '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-
     -- CONFIGURE
     -- ~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher
     '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
@@ -238,16 +247,12 @@ vim.lsp.config('jdtls', {
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
     -- Must point to the                                                     Change this to
     -- eclipse.jdt.ls installation                                           the actual version
-
-
     -- CONFIGURE
     -- ~/.local/share/nvim/mason/packages/jdtls/config_mac_arm
     '-configuration', '~/.local/share/nvim/mason/packages/jdtls/config_mac_arm',
     -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
     -- Must point to the                      Change to one of `linux`, `win` or `mac`
     -- eclipse.jdt.ls installation            Depending on your system.
-
-
     -- CONFIGURE
     -- See `data directory configuration` section in the README
     '-data', workspace_dir

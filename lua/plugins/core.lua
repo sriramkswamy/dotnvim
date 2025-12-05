@@ -3,7 +3,7 @@ return {
   {
     "ibhagwan/fzf-lua",
     -- optional for icon support
-    -- dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     -- or if using mini.icons/mini.nvim
     -- dependencies = { "nvim-mini/mini.icons" },
     ---@module "fzf-lua"
@@ -12,29 +12,45 @@ return {
     opts = {},
     ---@diagnostics enable: missing-fields
     keys = {
-      { "t", function() FzfLua.lsp_document_symbols() end, desc = "Document Symbols"},
+      { "+", function() vim.lsp.buf.add_workspace_folder() end, desc = "LSP Add Workspace Folder"},
+      { "-", function() vim.lsp.buf.remove_workspace_folder() end, desc = "LSP Remove Workspace Folder"},
+      { "#", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = "LSP List Workspace Folders"},
+      { "t", function() FzfLua.lsp_document_symbols() end, desc = "LSP Document Symbols"},
+      { "T", function() FzfLua.lsp_finder() end, desc = "LSP Finder"},
+      { "H", function() vim.lsp.buf.hover() end, desc = "LSP Documentation"},
+      { "J", function() FzfLua.lsp_definitions() end, desc = "LSP Definitions"},
       { "U", function() FzfLua.undotree() end, desc = "Undo Tree"},
       { "ga", function() FzfLua.grep_cword() end, desc = "Grep current word"},
+      { "gd", function() FzfLua.lsp_declarations() end, desc = "LSP Declarations"},
+      { "gi", function() FzfLua.lsp_implementations() end, desc = "LSP Implementations"},
+      { "gI", function() FzfLua.lsp_incoming_calls() end, desc = "LSP Incoming Calls"},
+      { "gO", function() FzfLua.lsp_outgoing_calls() end, desc = "LSP Outgoing Calls"},
       { "gl", function() FzfLua.loclist() end, desc = "Location List"},
       { "gL", function() FzfLua.loclist_stack() end, desc = "Location Stack"},
       { "gm", function() FzfLua.quickfix() end, desc = "Quickfix List"},
       { "gM", function() FzfLua.quickfix_stack() end, desc = "Quickfix Stack"},
-      { "gt", function() FzfLua.tags() end, desc = "Tags"},
+      { "gR", function() vim.lsp.buf.rename() end, desc = "LSP Rename"},
+      { "gt", function() FzfLua.combine({pickers="lsp_type_sub;lsp_type_super"})() end, desc = "LSP Types"},
+      { "gT", function() FzfLua.lsp_typedefs() end, desc = "LSP Typedefs"},
       { "coo", function() FzfLua.nvim_options() end, desc = "Options"},
       { "<C-p>", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
-      { "<leader>c", function() FzfLua.lsp_workspace_symbols() end, desc = "Workspace Symbols"},
+      { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
+      { "<leader>c", function() FzfLua.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
       { "<leader>d", function() FzfLua.git_files() end, desc = "Git Files"},
       { "<leader>f", function() FzfLua.combine({pickers="oldfiles;files"}) end, desc = "Files"},
-      { "<leader>i", function() FzfLua.combine({pickers="diagnostics_document;diagnostics_workspace"}) end, desc = "Diagnostics"},
+      { "<leader>h", function() FzfLua.lsp_code_actions() end, desc = "LSP Code Actions"},
+      { "<leader>i", function() FzfLua.combine({pickers="diagnostics_document;diagnostics_workspace"}) end, desc = "LSP Diagnostics"},
       { "<leader>j", function() FzfLua.commands() end, desc = "Commands"},
       { "<leader>k", function() FzfLua.buffers() end, desc = "Buffers"},
-      { "<leader>r", function() FzfLua.lsp_references() end, desc = "References"},
+      { "<leader>r", function() FzfLua.lsp_references() end, desc = "LSP References"},
       { "<leader>s", function() FzfLua.live_grep() end, desc = "Live Grep"},
+      { "<leader>t", function() FzfLua.tags() end, desc = "Tags"},
       { "<leader>x", function() FzfLua.helptags() end, desc = "Help"},
       { "<leader>,", function() FzfLua.keymaps() end, desc = "Keymaps"},
       { "<leader>;", function() FzfLua.command_history() end, desc = "Command History"},
       { "<leader>/", function() FzfLua.search_history() end, desc = "Search History"},
       { "<leader>.", function() FzfLua.combine({pickers="registers;marks"}) end, desc = "Registers/Marks"},
+      { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
     },
   },
 
@@ -64,7 +80,7 @@ return {
       require('mini.misc').setup()
       require('mini.trailspace').setup()
       require('mini.statusline').setup()
-      require('mini.icons').setup()
+      -- require('mini.icons').setup()
       require('mini.sessions').setup({
         autoread = false,
         autowrite = true,
@@ -146,7 +162,7 @@ return {
         -- Module mappings. Use `''` (empty string) to disable one.
         mappings = {
           start = 'go',
-          start_with_preview = 'gO',
+          start_with_preview = 'goo',
         },
       })
       local hipatterns = require('mini.hipatterns')
@@ -201,6 +217,7 @@ return {
       { 'nvim-tree/nvim-web-devicons', opts = {} }
     },
     event = 'BufRead',
+    lazy = false,
     config = function()
       require('lspsaga').setup({
         symbol_in_winbar = {
@@ -281,6 +298,6 @@ return {
     config = function ()
       vim.cmd("let g:asyncrun_open = 10")
     end
-  }
+  },
 
 }
