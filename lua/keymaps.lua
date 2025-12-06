@@ -43,8 +43,8 @@ vim.keymap.set('t', '<C-d>', '<C-\\><C-n>', { silent = true, desc = 'normal mode
 --[[ Visual mode --]]
 
 -- Clipboard
-vim.keymap.set('v', '<leader>p', '"+p', { silent = true, desc = 'clipboard paste' })
-vim.keymap.set('v', '<leader>y', '"+y', { silent = true, desc = 'clipboard yank' })
+vim.keymap.set('v', 'gp', '"+p', { silent = true, desc = 'clipboard paste' })
+vim.keymap.set('v', 'gy', '"+y', { silent = true, desc = 'clipboard yank' })
 
 -- Keep indenting in visual mode
 vim.keymap.set('v', '>', '>gv', { silent = true, desc = 'indent right' })
