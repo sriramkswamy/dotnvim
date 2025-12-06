@@ -19,6 +19,7 @@ return {
       { "-", function() vim.lsp.buf.remove_workspace_folder() end, desc = "LSP Remove Workspace Folder"},
       { "#", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = "LSP List Workspace Folders"},
       { "t", function() FzfLua.lsp_document_symbols() end, desc = "LSP Document Symbols"},
+      { "K", function() vim.lsp.buf.hover() end, desc = "LSP Hover Info"},
       { "T", function() FzfLua.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
       { "U", function() FzfLua.undotree() end, desc = "Undo Tree"},
       { "ga", function() FzfLua.grep_cword() end, desc = "Grep current word"},
@@ -34,7 +35,6 @@ return {
       { "gr", function() vim.lsp.buf.rename() end, desc = "LSP Rename"},
       { "gt", function() FzfLua.combine({pickers="lsp_type_sub;lsp_type_super"})() end, desc = "LSP Types"},
       { "gT", function() FzfLua.lsp_typedefs() end, desc = "LSP Typedefs"},
-      { "coo", function() FzfLua.nvim_options() end, desc = "Options"},
       { "<C-p>", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
       { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
       { "<leader>c", function() FzfLua.lsp_finder() end, desc = "LSP Finder"},
@@ -45,6 +45,7 @@ return {
       { "<leader>j", function() FzfLua.commands() end, desc = "Commands"},
       { "<leader>k", function() FzfLua.buffers() end, desc = "Buffers"},
       { "<leader>r", function() FzfLua.lsp_references() end, desc = "LSP References"},
+      { "<leader>s", function() FzfLua.live_grep() end, desc = "Live Grep"},
       { "<leader>t", function() FzfLua.tags() end, desc = "Tags"},
       { "<leader>x", function() FzfLua.helptags() end, desc = "Help"},
       { "<leader>,", function() FzfLua.keymaps() end, desc = "Keymaps"},
@@ -52,7 +53,7 @@ return {
       { "<leader>/", function() FzfLua.search_history() end, desc = "Search History"},
       { "<leader>.", function() FzfLua.combine({pickers="registers;marks"}) end, desc = "Registers/Marks"},
       { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
-      { "<leader><Space>", function() FzfLua.live_grep() end, desc = "Live Grep"},
+      { "<leader>`", function() FzfLua.nvim_options() end, desc = "Options"},
     },
   },
 
@@ -60,6 +61,7 @@ return {
     'nvim-mini/mini.nvim',
     version = '*',
     config = function ()
+      -- default setup is good
       require('mini.bufremove').setup()
       require('mini.indentscope').setup()
       require('mini.cursorword').setup()
@@ -71,6 +73,10 @@ return {
       require('mini.misc').setup()
       require('mini.statusline').setup()
       require('mini.icons').setup()
+      require('mini.diff').setup()
+      require('mini.trailspace').setup()
+
+      -- custom setup
       require('mini.bracketed').setup({
         buffer     = { suffix = 'b', options = {} },
         comment    = { suffix = 'c', options = {} },
@@ -87,7 +93,6 @@ return {
         window     = { suffix = 'w', options = {} },
         yank       = { suffix = 'y', options = {} },
       })
-      MiniMisc.setup_auto_root()
       require('mini.surround').setup({
         -- Module mappings. Use `''` (empty string) to disable one.
         mappings = {
@@ -98,37 +103,29 @@ return {
           highlight = '', -- Highlight surrounding
           replace = 'cs', -- Replace surrounding
           update_n_lines = '', -- Update `n_lines`
-
           suffix_last = 'l', -- Suffix to search with "prev" method
           suffix_next = 'n', -- Suffix to search with "next" method
         },
       })
-      require('mini.trailspace').setup()
       require('mini.basics').setup({
         -- Options. Set to `false` to disable.
         options = {
           -- Basic options ('termguicolors', 'number', 'ignorecase', and many more)
           basic = false,
-
           -- Extra UI features ('winblend', 'cmdheight=0', ...)
           extra_ui = false,
-
           -- Presets for window borders ('single', 'double', ...)
           win_borders = 'default',
         },
-
         -- Mappings. Set to `false` to disable.
         mappings = {
           -- Basic mappings (better 'jk', save with Ctrl+S, ...)
           basic = false,
-
           -- Prefix for mappings that toggle common options ('wrap', 'spell', ...).
           -- Supply empty string to not create these mappings.
           option_toggle_prefix = [[co]],
-
           -- Window navigation with <C-hjkl>, resize with <C-arrow>
           windows = false,
-
           -- Move cursor in Insert, Command, and Terminal mode with <M-hjkl>
           move_with_alt = false,
         },
@@ -148,7 +145,6 @@ return {
           hack  = { pattern = '%f[%w]()HACK()%f[%W]',  group = 'MiniHipatternsHack'  },
           todo  = { pattern = '%f[%w]()TODO()%f[%W]',  group = 'MiniHipatternsTodo'  },
           note  = { pattern = '%f[%w]()NOTE()%f[%W]',  group = 'MiniHipatternsNote'  },
-
           -- Highlight hex color strings (`#rrggbb`) using that color
           hex_color = hipatterns.gen_highlighter.hex_color(),
         },
@@ -177,11 +173,79 @@ return {
           end
         }
       })
-
+      require('mini.operators').setup({
+        evaluate = {
+          prefix = 'g=',
+          -- Function which does the evaluation
+          func = nil,
+        },
+        -- Exchange text regions
+        exchange = {
+          prefix = 'cx',
+          -- Whether to reindent new text to match previous indent
+          reindent_linewise = true,
+        },
+        -- Multiply (duplicate) text
+        multiply = {
+          prefix = 'gx',
+          -- Function which can modify text before multiplying
+          func = nil,
+        },
+        -- Replace text with register
+        replace = {
+          prefix = 'cr',
+          -- Whether to reindent new text to match previous indent
+          reindent_linewise = true,
+        },
+        -- Sort text
+        sort = {
+          prefix = 'g-',
+          -- Function which does the sort
+          func = nil,
+        }
+      })
+      -- call functions
+      MiniMisc.setup_auto_root()
       -- Mappings not lazy loaded
       vim.keymap.set('n', '<leader>n', function() MiniFiles.open() end, {silent = true, desc = 'File Explorer'})
       vim.keymap.set('n', 'Z', function() MiniMisc.zoom() end, {silent = true, desc = 'Zoom Window'})
+      vim.keymap.set({'n', 'v'}, 'gj', function() MiniDiff.goto_hunk("next") end, {silent = true, desc = 'Next Hunk'})
+      vim.keymap.set({'n', 'v'}, 'gk', function() MiniDiff.goto_hunk("prev") end, {silent = true, desc = 'Previous Hunk'})
+      vim.keymap.set({'o', 'x'}, 'ij', function() MiniDiff.textobject() end, {silent = true, desc = 'Hunk'})
+      vim.keymap.set({'o', 'x'}, 'aj', function() MiniDiff.textobject() end, {silent = true, desc = 'Hunk'})
     end,
+  },
+
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    ---@type snacks.Config
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+      bigfile = { enabled = true },
+      dashboard = { enabled = false },
+      explorer = { enabled = false },
+      indent = { enabled = false },
+      input = { enabled = true },
+      picker = { enabled = false },
+      notifier = { enabled = true },
+      quickfile = { enabled = true },
+      scope = { enabled = true },
+      scroll = { enabled = false },
+      statuscolumn = { enabled = true },
+      words = { enabled = true },
+    },
+    keys = {
+      -- { "coo", function() Snacks.toggle() end, desc = "Toggle options" },
+      { "coh", function() Snacks.toggle.inlay_hints() end, desc = "Toggle options" },
+      { "<C-n>", function() Snacks.terminal() end, desc = "Toggle Terminal" },
+      { "<leader>g", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
+      { "<leader><CR>",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { "<leader>\\",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+    },
   },
 
   { -- Fast auto completion
@@ -189,14 +253,12 @@ return {
     dependencies = {
       { 'rafamadriz/friendly-snippets' },
     },
-
     -- use a release tag to download pre-built binaries
     version = '1.*',
     -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
     -- build = 'cargo build --release',
     -- If you use nix, you can build from source using latest nightly rust with:
     -- build = 'nix run .#build-plugin',
-
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
@@ -215,22 +277,18 @@ return {
       keymap = {
         preset = 'super-tab',
       },
-
       appearance = {
         -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- Adjusts spacing to ensure icons are aligned
         nerd_font_variant = 'mono'
       },
-
       -- (Default) Only show the documentation popup when manually triggered
       completion = { documentation = { auto_show = true } },
-
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
       },
-
       -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
       -- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
       -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`

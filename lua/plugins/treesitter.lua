@@ -20,10 +20,8 @@ else
         require('nvim-treesitter.configs').setup {
           -- Add languages to be installed here that you want installed for treesitter
           ensure_installed = { 'c', 'cpp', 'python', 'lua', 'bash', 'html', 'json', 'yaml', 'markdown', 'markdown_inline', 'help' },
-
           -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
           auto_install = false,
-
           highlight = { enable = true },
           indent = { enable = true, disable = { 'python' } },
           incremental_selection = {
@@ -80,7 +78,6 @@ else
             },
           },
         }
-
         -- require'treesitter-context'.setup{
         --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
         --   min_window_height = 50, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
@@ -90,10 +87,9 @@ else
         -- vim.keymap.set("n", "<C-e>", function()
         --   require("treesitter-context").go_to_context()
         -- end, { silent = true })
-
         pcall(require('nvim-treesitter.install').update { with_sync = true })
       end,
     },
-
   }
+
 end

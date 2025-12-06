@@ -65,6 +65,13 @@ vim.lsp.config('clangd', {
   },
   on_attach = on_attach,
 })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "c", "cpp", "cxx" },
+  desc = "lsp enable clangd",
+  callback = function()
+    vim.lsp.enable("clangd")
+  end,
+})
 
 -- pyright
 vim.lsp.config('pyright', {
@@ -89,6 +96,13 @@ vim.lsp.config('pyright', {
     }
   },
   on_attach = on_attach,
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "python" },
+  desc = "lsp enable pyright",
+  callback = function()
+    vim.lsp.enable("pyright")
+  end,
 })
 
 -- lua
@@ -124,6 +138,13 @@ vim.lsp.config('lua_ls', {
   },
   on_attach = on_attach
 })
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "lua" },
+  desc = "lsp enable lua_ls",
+  callback = function()
+    vim.lsp.enable("lua_ls")
+  end,
+})
 
 -- viml
 vim.lsp.config('vimls', {
@@ -135,6 +156,13 @@ vim.lsp.config('vimls', {
     ".git",
   },
   on_attach = on_attach
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "vim" },
+  desc = "lsp enable vimls",
+  callback = function()
+    vim.lsp.enable("vimls")
+  end,
 })
 
 -- markdown
@@ -152,6 +180,13 @@ vim.lsp.config('markdown', {
   cmd = { 'marksman', 'server' },
   filetypes = { "markdown" },
   on_attach = on_attach,
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown" },
+  desc = "lsp enable markdown",
+  callback = function()
+    vim.lsp.enable("markdown")
+  end,
 })
 
 -- jdtls LSP configuration
@@ -258,4 +293,11 @@ vim.lsp.config('jdtls', {
     '-data', workspace_dir
   },
   on_attach = on_attach,
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "java" },
+  desc = "lsp enable jdtls",
+  callback = function()
+    vim.lsp.enable("jdtls")
+  end,
 })

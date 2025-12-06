@@ -41,7 +41,6 @@ return {
           tab_size = 18,
           diagnostics = false,
           diagnostics_update_in_insert = false,
-
           color_icons = true,
           show_buffer_icons = true,
           show_buffer_close_icons = true,

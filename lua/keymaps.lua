@@ -150,6 +150,6 @@ vim.keymap.set('n', ']L', '<cmd>llast<CR>', { silent = true, desc = 'last locati
 vim.keymap.set('n', 'coa', '<cmd>set scrollbind!<CR>', { silent = false, desc = 'toggle scrollbind' })
 vim.keymap.set('n', 'coi', '<cmd>setlocal ignorecase!<CR>', { silent = false, desc = 'toggle ignorecase' })
 vim.keymap.set('n', 'com', '<cmd>set colorcolumn=80<CR>', { silent = false, desc = 'enable margin' })
-vim.keymap.set('n', 'coo', '<cmd>set colorcolumn=0<CR>', { silent = false, desc = 'disable margin' })
+vim.keymap.set('n', 'col', '<cmd>set colorcolumn=0<CR>', { silent = false, desc = 'disable margin' })
 vim.keymap.set('n', 'cop', '<cmd>setlocal paste!<CR>', { silent = false, desc = 'toggle paste' })
 vim.keymap.set('n', 'coy', '<cmd>set ft?<CR>', { silent = false, desc = 'which filetype' })

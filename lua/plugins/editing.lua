@@ -48,7 +48,7 @@ return {
       });
     end,
     keys = {
-      { "<leader>s", "<cmd>GrugFar<CR>", desc = "Search and Replace" }
+      { "<leader><Space>", "<cmd>GrugFar<CR>", desc = "Search and Replace" }
     }
   },
 
@@ -90,8 +90,8 @@ return {
       separator = '━━',
     },
     keys = {
-      { "<leader><CR>", mode = { "n", "x" }, "<cmd>CopilotChatToggle<CR>", desc = "Toggle Assistant" },
-      { "<leader>aa", mode = { "n", "x" }, "<cmd>CopilotChatExplain<CR>", desc = "Ask Assistant to Explain" },
+      { "<leader>aa", mode = { "n", "x" }, "<cmd>CopilotChatToggle<CR>", desc = "Toggle Assistant" },
+      { "<leader>ae", mode = { "n", "x" }, "<cmd>CopilotChatExplain<CR>", desc = "Ask Assistant to Explain" },
       { "<leader>ar", mode = { "n", "x" }, "<cmd>CopilotChatReview<CR>", desc = "Ask Assistant to Review" },
       { "<leader>ad", mode = { "n", "x" }, "<cmd>CopilotChatDocs<CR>", desc = "Ask Assistant to Document" },
       { "<leader>ao", mode = { "n", "x" }, "<cmd>CopilotChatOptimize<CR>", desc = "Ask Assistant to Optimize" },
