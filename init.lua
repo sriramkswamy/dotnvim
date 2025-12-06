@@ -23,7 +23,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Import all the plugins configurations from lua/plugins/*.lua
 require('lazy').setup({
-  { import = 'plugins' },
+  { import = 'config' },
 }, {})
 
 -- Set up some sensible options

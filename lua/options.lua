@@ -123,4 +123,4 @@ elseif vim.fn.executable('ag') then
 end
 
 -- Set the background to be light or dark
-vim.o.background = 'light'
+vim.o.background = 'dark'
