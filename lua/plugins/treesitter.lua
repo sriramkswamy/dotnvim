@@ -9,9 +9,10 @@ else
     { -- Highlight, edit, and navigate code
       'nvim-treesitter/nvim-treesitter',
       build = ':TSUpdate',
+      ft = { 'c', 'cpp', 'python', 'lua', 'bash', 'html', 'json', 'yaml', 'markdown', 'markdown_inline', 'help' },
       dependencies = {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        'nvim-treesitter/nvim-treesitter-context',
+        -- 'nvim-treesitter/nvim-treesitter-context',
       },
       config = function()
         require'nvim-treesitter.install'.compilers = { "gcc", "clang" }
@@ -80,24 +81,18 @@ else
           },
         }
 
-        require'treesitter-context'.setup{
-          enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-          min_window_height = 50, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-          line_numbers = true,
-          multiline_threshold = 2, -- Maximum number of lines to show for a single context
-        }
-        vim.keymap.set("n", "<C-e>", function()
-          require("treesitter-context").go_to_context()
-        end, { silent = true })
+        -- require'treesitter-context'.setup{
+        --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+        --   min_window_height = 50, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+        --   line_numbers = true,
+        --   multiline_threshold = 2, -- Maximum number of lines to show for a single context
+        -- }
+        -- vim.keymap.set("n", "<C-e>", function()
+        --   require("treesitter-context").go_to_context()
+        -- end, { silent = true })
 
         pcall(require('nvim-treesitter.install').update { with_sync = true })
       end,
-      keys = {
-        { '[d', vim.diagnostic.goto_prev, 'n', silent = true, desc = 'previous diagnostic'},
-        { ']d', vim.diagnostic.goto_next, 'n', silent = true, desc = 'next diagnostic'},
-        { 'gA', vim.diagnostic.goto_prev, 'n', silent = true, desc = 'open float'},
-        { 'gL', vim.diagnostic.goto_prev, 'n', silent = true, desc = 'set location list'}
-      },
     },
 
   }
