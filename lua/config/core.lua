@@ -21,7 +21,6 @@ return {
       { "'", function() FzfLua.combine({pickers="registers;marks"}) end, desc = "Registers/Marks"},
       { "t", function() FzfLua.lsp_document_symbols() end, desc = "LSP Document Symbols"},
       { "K", function() vim.lsp.buf.hover() end, desc = "LSP Hover Info"},
-      { "U", function() FzfLua.undotree() end, desc = "Undo Tree"},
       { "ga", function() FzfLua.grep_cword() end, desc = "Grep current word"},
       { "gd", function() FzfLua.lsp_definitions() end, desc = "LSP Definitions"},
       { "gD", function() FzfLua.lsp_declarations() end, desc = "LSP Declarations"},
@@ -48,6 +47,7 @@ return {
       { "<leader>r", function() FzfLua.lsp_references() end, desc = "LSP References"},
       { "<leader>s", function() FzfLua.live_grep() end, desc = "Live Grep"},
       { "<leader>c", function() FzfLua.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
+      { "<leader>u", function() FzfLua.undotree() end, desc = "Undo History"},
       { "<leader>x", function() FzfLua.helptags() end, desc = "Help"},
       { "<leader>,", function() FzfLua.keymaps() end, desc = "Keymaps"},
       { "<leader>;", function() FzfLua.command_history() end, desc = "Command History"},
@@ -304,7 +304,7 @@ return {
   { -- background runner
     'skywind3000/asyncrun.vim',
     keys = {
-      { '<leader>u', '<cmd>AsyncStop<cr>', 'n', silent = true, desc = 'background run stop' }
+      { '<leader>p', '<cmd>AsyncStop<cr>', 'n', silent = true, desc = 'background run stop' }
     },
     config = function ()
       vim.cmd("let g:asyncrun_open = 10")
