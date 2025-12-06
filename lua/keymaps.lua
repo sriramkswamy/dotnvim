@@ -79,11 +79,11 @@ vim.keymap.set('n', 'Q','@@', { silent = true, desc = 'repeat last macro' })
 vim.keymap.set('n', 'g.','yyp', { silent = true, desc = 'duplicate line' })
 
 -- Clipboard
-vim.keymap.set('n', '<leader>p','"+p', { silent = true, desc = 'clipboard paste' })
-vim.keymap.set('n', '<leader>y', '"+y', { silent = true, desc = 'clipboard yank' })
-vim.keymap.set('n', '<leader>yy', '"+yy', { silent = true, desc = 'clipboard yank line' })
-vim.keymap.set('n', '<leader>P', '"+p$', { silent = true, desc = 'clipboard paste eol' })
-vim.keymap.set('n', '<leader>Y', '"+y$', { silent = true, desc = 'clipboard yank eol' })
+vim.keymap.set('n', 'gp','"+p', { silent = true, desc = 'clipboard paste' })
+vim.keymap.set('n', 'gy', '"+y', { silent = true, desc = 'clipboard yank' })
+vim.keymap.set('n', 'gyy', '"+yy', { silent = true, desc = 'clipboard yank line' })
+vim.keymap.set('n', 'gP', '"+p$', { silent = true, desc = 'clipboard paste eol' })
+vim.keymap.set('n', 'gY', '"+y$', { silent = true, desc = 'clipboard yank eol' })
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true, desc = 'up' })

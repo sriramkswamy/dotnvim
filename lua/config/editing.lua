@@ -13,6 +13,26 @@ return {
   -- extend repeat
   'tpope/vim-repeat',
 
+  { -- format code
+    'stevearc/conform.nvim',
+    config = function ()
+      require("conform").setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          -- Conform will run multiple formatters sequentially
+          python = { "isort", "black" },
+          -- You can customize some of the format options for the filetype (:help conform.format)
+          cpp = { "clang-format", lsp_format = "fallback" },
+          -- Conform will run the first available formatter
+          javascript = { "prettierd", "prettier", stop_after_first = true },
+        },
+      })
+    end,
+    keys = {
+      { "<leader>y", mode = {"n","x"}, function () require("conform").format({async = true}) end, desc = "Format" }
+    }
+  },
+
   { -- "gc/gb" to comment visual regions/lines
     'numToStr/Comment.nvim',
     config = function ()
