@@ -104,11 +104,36 @@ return {
     end,
   },
 
-  { -- better markdown rendering
-    'MeanderingProgrammer/render-markdown.nvim',
+  {
+    'stevearc/quicker.nvim',
+    ft = "qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
     opts = {},
-    ft = { "markdown" },
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
-  },
+    keys = {
+      { "<leader>m", function() require("quicker").toggle() end, desc = "Toggle Quickfix List" },
+      { "<leader>l", function() require("quicker").toggle({loclist = true}) end, desc = "Toggle Location List" },
+    },
+    config = function ()
+      require("quicker").setup({
+        keys = {
+          {
+            ">",
+            function()
+              require("quicker").expand({ before = 2, after = 2, add_to_existing = true })
+            end,
+            desc = "Expand quickfix context",
+          },
+          {
+            "<",
+            function()
+              require("quicker").collapse()
+            end,
+            desc = "Collapse quickfix context",
+          },
+        },
+      })
+    end
+  }
 
 }
