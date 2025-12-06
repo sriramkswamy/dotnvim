@@ -2,7 +2,7 @@
 " nnoremap <buffer> <space>a :lvimgrep /^\s*\(class\\|def\\|properties\\|classdef\).*/ %<CR>:lopen<CR>
 
 " run the current file
-nnoremap <buffer> mm :AsyncRun python %<Space>
+nnoremap <buffer> mm :OverseerShell python3 %<Space>
 
 " debugging
 " set break point
@@ -65,4 +65,4 @@ nnoremap <buffer> mag :let @m = "globals()"<CR>:call TxSend(@m)<CR>
 nnoremap <buffer> mas :let @m = "dir()"<CR>:call TxSend(@m)<CR>
 
 " Error checking
-nnoremap <buffer> mf :AsyncRun pylint\ --reports=n\ --output-format=parseable %<CR>
+nnoremap <buffer> mf :OverseerShell pylint\ --reports=n\ --output-format=parseable %<CR>

@@ -83,6 +83,7 @@ return {
           { mode = 'x', keys = '<leader>' },
           { mode = 'n', keys = '<leader>a' },
           { mode = 'x', keys = '<leader>a' },
+          { mode = 'n', keys = '<leader>p' },
           -- Built-in completion
           { mode = 'i', keys = '<C-x>' },
           -- `g` key
@@ -343,13 +344,18 @@ return {
     opts_extend = { "sources.default" }
   },
 
-  { -- background runner
-    'skywind3000/asyncrun.vim',
+  { -- task runner
+    'stevearc/overseer.nvim',
+    ---@module 'overseer'
+    ---@type overseer.SetupOpts
+    opts = {},
     keys = {
-      { '<leader>p', '<cmd>AsyncStop<cr>', 'n', silent = true, desc = 'background run stop' }
+      { '<leader>po', '<cmd>OverseerToggle<cr>', 'n', silent = true, desc = 'Oversee Tasks' },
+      { '<leader>pr', '<cmd>OverseerRun<cr>', 'n', silent = true, desc = 'Run Tasks' },
+      { '<leader>ps', '<cmd>OverseerShell<cr>', 'n', silent = true, desc = 'Shell Task' },
     },
     config = function ()
-      vim.cmd("let g:asyncrun_open = 10")
+      require("overseer").setup()
     end
   },
 

@@ -6,8 +6,8 @@ nnoremap <buffer> mms :let @m = "g++ -O3 -Wall -g " . expand('%:t') . " -o " . e
 nnoremap <buffer> mmo :let @m = "./" . expand('%:t:r') . ".out "<CR>:call TxSend(@m)<CR>
 
 " run typical run file
-nnoremap <buffer> mmm :AsyncRun ./run.csh<CR>
-nnoremap <buffer> mmw :AsyncRun ./run.sh<CR>
+nnoremap <buffer> mmm :OverseerShell ./run.csh<CR>
+nnoremap <buffer> mmw :OverseerShell ./run.sh<CR>
 
 " debugging
 " call gdb
@@ -68,4 +68,4 @@ nnoremap <buffer> mgo :let @m = "p *" . expand('<cword>')<CR>:call TxSend(@m)<CR
 nnoremap <buffer> mgq :let @m = "q"<CR>:call TxSend(@m)<CR>
 
 " error checking
-nnoremap <buffer> mf :AsyncRun gmake<Space>
+nnoremap <buffer> mf :OverseerShell gmake<Space>
