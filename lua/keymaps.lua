@@ -31,7 +31,6 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- [[ Terminal mode --]]
 
 -- normal mode in terminal
-vim.keymap.set('n', '<C-t>', '<cmd>terminal<CR>', { silent = true, desc = 'open terminal' })
 vim.keymap.set('t', '<C-d>', '<C-\\><C-n>', { silent = true, desc = 'normal mode' })
 
 -- [[ Operator mode --]]
@@ -130,7 +129,7 @@ vim.keymap.set('n', 'j', 'gj', { silent = true })
 
 -- Use tab for folding and reassign it's functionality
 -- vim.keymap.set('n', '<C-p>', '<C-i>', { silent = true })
-vim.keymap.set('n', '<C-i>', 'za', { silent = true })
+-- vim.keymap.set('n', '<C-i>', 'za', { silent = true })
 vim.keymap.set('n', '<Tab>', 'za', { silent = true })
 
 -- Zoom when in Tmux(>v1.8)
