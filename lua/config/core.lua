@@ -67,7 +67,6 @@ return {
       require('mini.cursorword').setup()
       require('mini.misc').setup()
       require('mini.files').setup()
-      require('mini.clue').setup()
       require('mini.pairs').setup()
       require('mini.bufremove').setup()
       require('mini.misc').setup()
@@ -77,6 +76,47 @@ return {
       require('mini.trailspace').setup()
 
       -- custom setup
+      require('mini.clue').setup({
+        triggers = {
+          -- Leader triggers
+          { mode = 'n', keys = '<leader>' },
+          { mode = 'x', keys = '<leader>' },
+          { mode = 'n', keys = '<leader>a' },
+          { mode = 'x', keys = '<leader>a' },
+          -- Built-in completion
+          { mode = 'i', keys = '<C-x>' },
+          -- `g` key
+          { mode = 'n', keys = 'g' },
+          { mode = 'x', keys = 'g' },
+          { mode = 'n', keys = 'gs' },
+          { mode = 'x', keys = 'gs' },
+          { mode = 'n', keys = 'gw' },
+          { mode = 'x', keys = 'gw' },
+          -- Marks
+          { mode = 'n', keys = '`' },
+          { mode = 'x', keys = '`' },
+          -- Registers
+          { mode = 'n', keys = '"' },
+          { mode = 'x', keys = '"' },
+          { mode = 'i', keys = '<C-r>' },
+          { mode = 'c', keys = '<C-r>' },
+          -- Window commands
+          { mode = 'n', keys = 'w' },
+          { mode = 'n', keys = '<C-w>' },
+          -- `z` key
+          { mode = 'n', keys = 'z' },
+          { mode = 'x', keys = 'z' },
+        },
+        clues = {
+          -- Enhance this by adding descriptions for <Leader> mapping groups
+          require('mini.clue').gen_clues.builtin_completion(),
+          require('mini.clue').gen_clues.g(),
+          require('mini.clue').gen_clues.marks(),
+          require('mini.clue').gen_clues.registers(),
+          require('mini.clue').gen_clues.windows(),
+          require('mini.clue').gen_clues.z(),
+        },
+      })
       require('mini.bracketed').setup({
         buffer     = { suffix = 'b', options = {} },
         comment    = { suffix = 'c', options = {} },
@@ -231,6 +271,7 @@ return {
       indent = { enabled = false },
       input = { enabled = true },
       picker = { enabled = false },
+      notify = { enabled = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
       scope = { enabled = true },
