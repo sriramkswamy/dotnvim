@@ -7,11 +7,17 @@ return {
       require("mason-lspconfig").setup {
         ensure_installed = {
           "lua_ls",
+          "stylua",
           "pyright",
+          -- "isort",
+          -- "black",
           "clangd",
+          -- "clang-format",
           "marksman",
           "jdtls",
           "jsonls",
+          -- "prettier",
+          -- "prettierd",
           "bashls",
           "html",
           "cssls",

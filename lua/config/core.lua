@@ -242,6 +242,7 @@ return {
       -- { "coo", function() Snacks.toggle() end, desc = "Toggle options" },
       { "coh", function() Snacks.toggle.inlay_hints() end, desc = "Toggle options" },
       { "<leader>t", function() Snacks.terminal() end, desc = "Toggle Terminal" },
+      { "<leader>y", function() Snacks.picker.notifications() end, desc = "Notification History" },
       { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>\\",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader><CR>", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },

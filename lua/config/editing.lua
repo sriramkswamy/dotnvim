@@ -15,6 +15,7 @@ return {
 
   { -- format code
     'stevearc/conform.nvim',
+    ft = { "lua", "python", "cpp", "javascript", "typescript", "json", "html", "css", "markdown", "bash" },
     config = function ()
       require("conform").setup({
         formatters_by_ft = {
@@ -29,7 +30,7 @@ return {
       })
     end,
     keys = {
-      { "<leader>y", mode = {"n","x"}, function () require("conform").format({async = true}) end, desc = "Format" }
+      { "gq", mode = {"n","x"}, function () require("conform").format({async = true}) end, desc = "Format" }
     }
   },
 
