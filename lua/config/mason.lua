@@ -20,7 +20,10 @@ return {
           -- "prettierd",
           "bashls",
           "html",
+          "eslint",
+          "ts_ls",
           "cssls",
+          "roslyn",
           "copilot"
         },
       }
