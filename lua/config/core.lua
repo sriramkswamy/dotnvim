@@ -20,6 +20,7 @@ return {
       { "#", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = "LSP List Workspace Folders"},
       { "'", function() FzfLua.combine({pickers="registers;marks"}) end, desc = "Registers/Marks"},
       { "t", function() FzfLua.lsp_document_symbols() end, desc = "LSP Document Symbols"},
+      { "H", function() vim.diagnostic.open_float() end, desc = "LSP Hover Error"},
       { "K", function() vim.lsp.buf.hover() end, desc = "LSP Hover Info"},
       { "ga", function() FzfLua.grep_cword() end, desc = "Grep current word"},
       { "gd", function() FzfLua.lsp_definitions() end, desc = "LSP Definitions"},
@@ -36,8 +37,7 @@ return {
       { "gr", function() vim.lsp.buf.rename() end, desc = "LSP Rename"},
       { "gt", function() FzfLua.combine({pickers="lsp_type_sub;lsp_type_super"})() end, desc = "LSP Types"},
       { "gT", function() FzfLua.lsp_typedefs() end, desc = "LSP Typedefs"},
-      { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
-      { "<C-g>", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
+      -- { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
       { "<leader>d", function() FzfLua.git_files() end, desc = "Git Files"},
       { "<leader>f", function() FzfLua.combine({pickers="oldfiles;files"}) end, desc = "Files"},
       { "<leader>h", function() FzfLua.lsp_code_actions() end, desc = "LSP Code Actions"},
@@ -49,6 +49,7 @@ return {
       { "<leader>c", function() FzfLua.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
       { "<leader>u", function() FzfLua.undotree() end, desc = "Undo History"},
       { "<leader>x", function() FzfLua.helptags() end, desc = "Help"},
+      { "<leader>y", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
       { "<leader>,", function() FzfLua.keymaps() end, desc = "Keymaps"},
       { "<leader>;", function() FzfLua.command_history() end, desc = "Command History"},
       { "<leader>/", function() FzfLua.search_history() end, desc = "Search History"},
@@ -272,8 +273,8 @@ return {
       indent = { enabled = false },
       input = { enabled = true },
       picker = { enabled = false },
-      notify = { enabled = true },
-      notifier = { enabled = true },
+      notify = { enabled = false },
+      notifier = { enabled = false },
       quickfile = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = false },
@@ -284,7 +285,6 @@ return {
       -- { "coo", function() Snacks.toggle() end, desc = "Toggle options" },
       { "coh", function() Snacks.toggle.inlay_hints() end, desc = "Toggle options" },
       { "<leader>t", function() Snacks.terminal() end, desc = "Toggle Terminal" },
-      { "<leader>y", function() Snacks.picker.notifications() end, desc = "Notification History" },
       { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>\\",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader><CR>", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
@@ -380,9 +380,6 @@ return {
       suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
       -- log_level = 'debug',
     },
-    keys = {
-      { "H", "<cmd>AutoSession toggle<CR>", desc = "Toggle AutoSession" }
-    }
   },
 
 }

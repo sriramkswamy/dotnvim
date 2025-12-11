@@ -23,7 +23,7 @@ return {
           "eslint",
           "ts_ls",
           "cssls",
-          "roslyn",
+          -- "roslyn",
           "copilot"
         },
       }
