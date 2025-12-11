@@ -52,7 +52,7 @@ return {
       { "<leader>,", function() FzfLua.keymaps() end, desc = "Keymaps"},
       { "<leader>;", function() FzfLua.command_history() end, desc = "Command History"},
       { "<leader>/", function() FzfLua.search_history() end, desc = "Search History"},
-      { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
+      -- { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
       { "<leader>`", function() FzfLua.nvim_options() end, desc = "Options"},
     },
   },
