@@ -1,33 +1,44 @@
 return {
 
   -- Automatically install LSPs to stdpath for neovim
-  { 'williamboman/mason.nvim', opts = {} },
-  { 'williamboman/mason-lspconfig.nvim',
-    config = function ()
-      require("mason-lspconfig").setup {
-        ensure_installed = {
-          "lua_ls",
-          "stylua",
-          "pyright",
-          -- "isort",
-          -- "black",
-          "clangd",
-          -- "clang-format",
-          "marksman",
-          "jdtls",
-          "jsonls",
-          -- "prettier",
-          -- "prettierd",
-          "bashls",
-          "html",
-          "eslint",
-          "ts_ls",
-          "cssls",
-          -- "roslyn",
-          "copilot"
-        },
-      }
-    end
-  },
+  { 'williamboman/mason.nvim',
+    dependencies = {
+      'williamboman/mason-lspconfig.nvim',
+    },
+    opts = {
+      registries = {
+        "github:mason-org/mason-registry",
+        "github:Crashdummyy/mason-registry",
+      },
+      ensure_installed = {
+        "lua-language-server",
+        "stylua",
 
+        "pyright",
+        "isort",
+        "black",
+
+        "clangd",
+        "clang-format",
+
+        "marksman",
+
+        "jdtls",
+
+        "html-lsp",
+        "css-lsp",
+        "json-lsp",
+        "eslint-lsp",
+        "typescript-language-server",
+        "prettier",
+        "prettierd",
+
+        "roslyn",
+
+        "bashls",
+
+        "copilot"
+      },
+    }
+  },
 }
