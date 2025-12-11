@@ -12,14 +12,14 @@ else
       ft = { 'c', 'cpp', 'python', 'lua', 'bash', 'html', 'json', 'yaml', 'markdown', 'markdown_inline', 'help' },
       dependencies = {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        -- 'nvim-treesitter/nvim-treesitter-context',
+        'nvim-treesitter/nvim-treesitter-context',
       },
       config = function()
         require'nvim-treesitter.install'.compilers = { "gcc", "clang" }
         -- See `:help nvim-treesitter`
         require('nvim-treesitter.configs').setup {
           -- Add languages to be installed here that you want installed for treesitter
-          ensure_installed = { 'c', 'cpp', 'python', 'lua', 'bash', 'html', 'json', 'yaml', 'markdown', 'markdown_inline', 'help' },
+          ensure_installed = { 'c', 'cpp', 'c_sharp', 'python', 'lua', 'bash', 'html', 'json', 'yaml', 'markdown', 'markdown_inline', 'help' },
           -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
           auto_install = false,
           highlight = { enable = true },
@@ -78,15 +78,15 @@ else
             },
           },
         }
-        -- require'treesitter-context'.setup{
-        --   enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-        --   min_window_height = 50, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
-        --   line_numbers = true,
-        --   multiline_threshold = 2, -- Maximum number of lines to show for a single context
-        -- }
-        -- vim.keymap.set("n", "<C-e>", function()
-        --   require("treesitter-context").go_to_context()
-        -- end, { silent = true })
+        require'treesitter-context'.setup{
+          enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+          min_window_height = 50, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+          line_numbers = true,
+          multiline_threshold = 2, -- Maximum number of lines to show for a single context
+        }
+        vim.keymap.set("n", "<C-e>", function()
+          require("treesitter-context").go_to_context()
+        end, { silent = true })
         pcall(require('nvim-treesitter.install').update { with_sync = true })
       end,
     },
