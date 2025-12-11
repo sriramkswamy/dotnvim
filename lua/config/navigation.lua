@@ -154,7 +154,7 @@ return {
           enabled = false,
           -- by default all keymaps are enabled, but you can disable some of them,
           -- by removing them from the list.
-          keys = { "f", "F", "t", "T", ";", "," },
+          keys = { "f", "F", ";", "," },
           search = { wrap = false },
           highlight = { backdrop = true },
           jump = { register = false },
