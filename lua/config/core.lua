@@ -87,8 +87,8 @@ return {
           -- Built-in completion
           { mode = 'i', keys = '<C-x>' },
           -- `g` key
-          { mode = 'n', keys = 'g' },
-          { mode = 'x', keys = 'g' },
+          -- { mode = 'n', keys = 'g' },
+          -- { mode = 'x', keys = 'g' },
           { mode = 'n', keys = 'gs' },
           { mode = 'x', keys = 'gs' },
           { mode = 'n', keys = 'gw' },
