@@ -216,7 +216,7 @@ return {
       vim.keymap.set('n', 'Z', function() MiniMisc.zoom() end, {silent = true, desc = 'Zoom Window'})
       vim.keymap.set('n', 'coo', function() MiniExtra.pickers.options() end, {silent = true, desc = 'Options'})
       vim.keymap.set('n', '<leader>n', function() MiniFiles.open() end, {silent = true, desc = 'File Explorer'})
-      -- vim.keymap.set('n', '<leader>`', function() MiniExtra.pickers.list({scope = "change"}) end, {silent = true, desc = 'Changelist'})
+      vim.keymap.set('n', '<leader>gh', function() MiniExtra.pickers.git_hunks() end, {silent = true, desc = 'Pick Git Hunks'})
       vim.keymap.set({'n', 'v'}, 'gj', function() MiniDiff.goto_hunk("next") end, {silent = true, desc = 'Next Hunk'})
       vim.keymap.set({'n', 'v'}, 'gk', function() MiniDiff.goto_hunk("prev") end, {silent = true, desc = 'Previous Hunk'})
       vim.keymap.set({'o', 'x'}, 'ij', function() MiniDiff.textobject() end, {silent = true, desc = 'Hunk'})
