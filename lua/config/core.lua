@@ -213,9 +213,10 @@ return {
       -- call functions
       MiniMisc.setup_auto_root()
       -- Mappings not lazy loaded
-      vim.keymap.set('n', '<leader>n', function() MiniFiles.open() end, {silent = true, desc = 'File Explorer'})
-      vim.keymap.set('n', 'coo', function() MiniExtra.pickers.options() end, {silent = true, desc = 'Options'})
       vim.keymap.set('n', 'Z', function() MiniMisc.zoom() end, {silent = true, desc = 'Zoom Window'})
+      vim.keymap.set('n', 'coo', function() MiniExtra.pickers.options() end, {silent = true, desc = 'Options'})
+      vim.keymap.set('n', '<leader>n', function() MiniFiles.open() end, {silent = true, desc = 'File Explorer'})
+      -- vim.keymap.set('n', '<leader>`', function() MiniExtra.pickers.list({scope = "change"}) end, {silent = true, desc = 'Changelist'})
       vim.keymap.set({'n', 'v'}, 'gj', function() MiniDiff.goto_hunk("next") end, {silent = true, desc = 'Next Hunk'})
       vim.keymap.set({'n', 'v'}, 'gk', function() MiniDiff.goto_hunk("prev") end, {silent = true, desc = 'Previous Hunk'})
       vim.keymap.set({'o', 'x'}, 'ij', function() MiniDiff.textobject() end, {silent = true, desc = 'Hunk'})
@@ -293,10 +294,10 @@ return {
       { "<leader>,", function() Snacks.picker.keymaps() end, desc = "Keymaps"},
       { "<leader>;", function() Snacks.picker.command_history() end, desc = "Command History"},
       { "<leader>/", function() Snacks.picker.search_history() end, desc = "Search History"},
-      -- { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
-      { "<leader>`", function() Snacks.picker.pickers() end, desc = "Pickers"},
+      { "<leader>`", function() Snacks.picker.marks() end, desc = "Marks"},
       { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>\\",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
+      { "<leader><CR>", function() Snacks.picker.pickers() end, desc = "Pickers"},
     },
   },
 
