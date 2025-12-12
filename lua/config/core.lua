@@ -216,7 +216,6 @@ return {
       vim.keymap.set('n', 'Z', function() MiniMisc.zoom() end, {silent = true, desc = 'Zoom Window'})
       vim.keymap.set('n', 'coo', function() MiniExtra.pickers.options() end, {silent = true, desc = 'Options'})
       vim.keymap.set('n', '<leader>n', function() MiniFiles.open() end, {silent = true, desc = 'File Explorer'})
-      vim.keymap.set('n', '<leader>gh', function() MiniExtra.pickers.git_hunks() end, {silent = true, desc = 'Pick Git Hunks'})
       vim.keymap.set({'n', 'v'}, 'gj', function() MiniDiff.goto_hunk("next") end, {silent = true, desc = 'Next Hunk'})
       vim.keymap.set({'n', 'v'}, 'gk', function() MiniDiff.goto_hunk("prev") end, {silent = true, desc = 'Previous Hunk'})
       vim.keymap.set({'o', 'x'}, 'ij', function() MiniDiff.textobject() end, {silent = true, desc = 'Hunk'})
@@ -270,7 +269,6 @@ return {
       { "gr", function() vim.lsp.buf.rename() end, desc = "LSP Rename"},
       { "gt", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP Type Definitions"},
       { "gT", function() Snacks.picker.lsp_config() end, desc = "LSP Config"},
-      -- { "coo", function() Snacks.picker.nvim_options() end, desc = "Toggle options" },
       { "coh", function() Snacks.toggle.inlay_hints() end, desc = "Toggle Hints" },
       -- { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
       { "<leader>c", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
@@ -290,6 +288,12 @@ return {
       { "<leader>y", function() Snacks.picker.jumps() end, desc = "Jump List"},
       { "<leader>U", function() Snacks.picker.undotree() end, desc = "Undo History"},
       { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches"},
+      { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File"},
+      { "<leader>gg", function() Snacks.picker.git_status() end, desc = "Git Status"},
+      { "<leader>gh", function() Snacks.picker.git_diff() end, desc = "Git Hunks"},
+      { "<leader>gl", function() Snacks.picker.git_log_line() end, desc = "Git Log Line"},
+      { "<leader>go", function() Snacks.picker.git_log() end, desc = "Git Log"},
+      { "<leader>gs", function() Snacks.picker.git_stash() end, desc = "Git Stash"},
       { "<leader>gw", function() Snacks.git.blame_line() end, desc = "Git Blame Line"},
       { "<leader>,", function() Snacks.picker.keymaps() end, desc = "Keymaps"},
       { "<leader>;", function() Snacks.picker.command_history() end, desc = "Command History"},
