@@ -1,67 +1,20 @@
 return {
 
-  {
-    "ibhagwan/fzf-lua",
-    -- optional for icon support
-    -- dependencies = { "nvim-tree/nvim-web-devicons" },
-    -- or if using mini.icons/mini.nvim
-    -- dependencies = { "nvim-mini/mini.icons" },
-    ---@module "fzf-lua"
-    ---@type fzf-lua.Config|{}
-    ---@diagnostics disable: missing-fields
-    opts = {},
-    ---@diagnostics enable: missing-fields
-    config = function ()
-      require('fzf-lua').register_ui_select()
-    end,
-    keys = {
-      { "+", function() vim.lsp.buf.add_workspace_folder() end, desc = "LSP Add Workspace Folder"},
-      { "-", function() vim.lsp.buf.remove_workspace_folder() end, desc = "LSP Remove Workspace Folder"},
-      { "#", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = "LSP List Workspace Folders"},
-      { "'", function() FzfLua.combine({pickers="registers;marks"}) end, desc = "Registers/Marks"},
-      { "t", function() FzfLua.lsp_document_symbols() end, desc = "LSP Document Symbols"},
-      { "H", function() vim.diagnostic.open_float() end, desc = "LSP Hover Error"},
-      { "K", function() vim.lsp.buf.hover() end, desc = "LSP Hover Info"},
-      { "ga", function() FzfLua.grep_cword() end, desc = "Grep current word"},
-      { "gd", function() FzfLua.lsp_definitions() end, desc = "LSP Definitions"},
-      { "gD", function() FzfLua.lsp_declarations() end, desc = "LSP Declarations"},
-      { "ge", function() FzfLua.tags() end, desc = "Get Tags"},
-      { "gF", function() FzfLua.lsp_finder() end, desc = "LSP Finder"},
-      { "gi", function() FzfLua.lsp_implementations() end, desc = "LSP Implementations"},
-      { "gI", function() FzfLua.lsp_incoming_calls() end, desc = "LSP Incoming Calls"},
-      { "gO", function() FzfLua.lsp_outgoing_calls() end, desc = "LSP Outgoing Calls"},
-      { "gl", function() FzfLua.loclist() end, desc = "Location List"},
-      { "gL", function() FzfLua.loclist_stack() end, desc = "Location Stack"},
-      { "gm", function() FzfLua.quickfix() end, desc = "Quickfix List"},
-      { "gM", function() FzfLua.quickfix_stack() end, desc = "Quickfix Stack"},
-      { "gr", function() vim.lsp.buf.rename() end, desc = "LSP Rename"},
-      { "gt", function() FzfLua.combine({pickers="lsp_type_sub;lsp_type_super"})() end, desc = "LSP Types"},
-      { "gT", function() FzfLua.lsp_typedefs() end, desc = "LSP Typedefs"},
-      -- { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
-      { "<leader>d", function() FzfLua.git_files() end, desc = "Git Files"},
-      { "<leader>f", function() FzfLua.combine({pickers="oldfiles;files"}) end, desc = "Files"},
-      { "<leader>h", function() FzfLua.lsp_code_actions() end, desc = "LSP Code Actions"},
-      { "<leader>i", function() FzfLua.combine({pickers="diagnostics_document;diagnostics_workspace"}) end, desc = "LSP Diagnostics"},
-      { "<leader>j", function() FzfLua.commands() end, desc = "Commands"},
-      { "<leader>k", function() FzfLua.buffers() end, desc = "Buffers"},
-      { "<leader>r", function() FzfLua.lsp_references() end, desc = "LSP References"},
-      { "<leader>s", function() FzfLua.live_grep() end, desc = "Live Grep"},
-      { "<leader>c", function() FzfLua.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
-      { "<leader>u", function() FzfLua.undotree() end, desc = "Undo History"},
-      { "<leader>x", function() FzfLua.helptags() end, desc = "Help"},
-      { "<leader>y", function() FzfLua.combine({pickers="jumps;changes"}) end, desc = "Jump/Change List"},
-      { "<leader>,", function() FzfLua.keymaps() end, desc = "Keymaps"},
-      { "<leader>;", function() FzfLua.command_history() end, desc = "Command History"},
-      { "<leader>/", function() FzfLua.search_history() end, desc = "Search History"},
-      -- { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
-      { "<leader>`", function() FzfLua.nvim_options() end, desc = "Options"},
-    },
-  },
-
   { -- multiple editing, visual, and settings tweaks
     'nvim-mini/mini.nvim',
     version = '*',
     config = function ()
+      -- Centered on screen
+      local win_config = function()
+        local height = math.floor(0.618 * vim.o.lines)
+        local width = math.floor(0.618 * vim.o.columns)
+        return {
+          anchor = 'NW', height = height, width = width,
+          row = math.floor(0.5 * (vim.o.lines - height)),
+          col = math.floor(0.5 * (vim.o.columns - width)),
+        }
+      end
+
       -- default setup is good
       require('mini.bufremove').setup()
       require('mini.indentscope').setup()
@@ -75,6 +28,7 @@ return {
       require('mini.icons').setup()
       require('mini.diff').setup()
       require('mini.trailspace').setup()
+      require('mini.extra').setup()
 
       -- custom setup
       require('mini.clue').setup({
@@ -85,6 +39,7 @@ return {
           { mode = 'n', keys = '<leader>a' },
           { mode = 'x', keys = '<leader>a' },
           { mode = 'n', keys = '<leader>p' },
+          { mode = 'n', keys = '<leader>g' },
           -- Built-in completion
           { mode = 'i', keys = '<C-x>' },
           -- `g` key
@@ -246,10 +201,20 @@ return {
           func = nil,
         }
       })
+      require('mini.pick').setup({
+        mappings = {
+          toggle_info    = '<C-p>',
+          move_down      = '<C-j>',
+          move_up        = '<C-k>',
+        },
+        window = { config = win_config }
+      })
+
       -- call functions
       MiniMisc.setup_auto_root()
       -- Mappings not lazy loaded
       vim.keymap.set('n', '<leader>n', function() MiniFiles.open() end, {silent = true, desc = 'File Explorer'})
+      vim.keymap.set('n', 'coo', function() MiniExtra.pickers.options() end, {silent = true, desc = 'Options'})
       vim.keymap.set('n', 'Z', function() MiniMisc.zoom() end, {silent = true, desc = 'Zoom Window'})
       vim.keymap.set({'n', 'v'}, 'gj', function() MiniDiff.goto_hunk("next") end, {silent = true, desc = 'Next Hunk'})
       vim.keymap.set({'n', 'v'}, 'gk', function() MiniDiff.goto_hunk("prev") end, {silent = true, desc = 'Previous Hunk'})
@@ -272,7 +237,7 @@ return {
       explorer = { enabled = false },
       indent = { enabled = false },
       input = { enabled = true },
-      picker = { enabled = false },
+      picker = { enabled = true },
       notify = { enabled = false },
       notifier = { enabled = false },
       quickfile = { enabled = true },
@@ -282,12 +247,56 @@ return {
       words = { enabled = true },
     },
     keys = {
-      -- { "coo", function() Snacks.toggle() end, desc = "Toggle options" },
-      { "coh", function() Snacks.toggle.inlay_hints() end, desc = "Toggle options" },
+      { "+", function() vim.lsp.buf.add_workspace_folder() end, desc = "LSP Add Workspace Folder"},
+      { "-", function() vim.lsp.buf.remove_workspace_folder() end, desc = "LSP Remove Workspace Folder"},
+      { "#", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, desc = "LSP List Workspace Folders"},
+      { "'", function() Snacks.picker.registers() end, desc = "Registers"},
+      { "t", function() Snacks.picker.lsp_symbols() end, desc = "LSP Document Symbols"},
+      { "H", function() vim.diagnostic.open_float() end, desc = "LSP Hover Error"},
+      { "K", function() vim.lsp.buf.hover() end, desc = "LSP Hover Info"},
+      { "ga", function() Snacks.picker.grep_word() end, desc = "Grep current word"},
+      { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP Definitions"},
+      { "gD", function() Snacks.picker.lsp_declarations() end, desc = "LSP Declarations"},
+      { "ge", function() Snacks.picker.tags() end, desc = "Get Tags"},
+      { "gF", function() Snacks.picker.format() end, desc = "LSP Finder"},
+      { "gi", function() Snacks.picker.lsp_implementations() end, desc = "LSP Implementations"},
+      { "gI", function() Snacks.picker.lsp_incoming_calls() end, desc = "LSP Incoming Calls"},
+      { "gO", function() Snacks.picker.lsp_outgoing_calls() end, desc = "LSP Outgoing Calls"},
+      { "gl", function() Snacks.picker.loclist() end, desc = "Location List"},
+      -- { "gL", function() Snacks.picker.loclist_stack() end, desc = "Location Stack"},
+      { "gm", function() Snacks.picker.quickfix() end, desc = "Quickfix List"},
+      -- { "gM", function() Snacks.picker.quickfix_stack() end, desc = "Quickfix Stack"},
+      { "gr", function() vim.lsp.buf.rename() end, desc = "LSP Rename"},
+      { "gt", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP Type Definitions"},
+      { "gT", function() Snacks.picker.lsp_config() end, desc = "LSP Config"},
+      -- { "coo", function() Snacks.picker.nvim_options() end, desc = "Toggle options" },
+      { "coh", function() Snacks.toggle.inlay_hints() end, desc = "Toggle Hints" },
+      -- { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
+      { "<leader>c", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
+      { "<leader>d", function() Snacks.picker.git_files() end, desc = "Git Files"},
+      { "<leader>f", function() Snacks.picker.smart() end, desc = "Smart Files"},
+      -- { "<leader>h", function() Snacks.picker.actions() end, desc = "LSP Code Actions"},
+      { "<leader>h", function() vim.lsp.buf.code_action() end, desc = "LSP Code Actions"},
+      { "<leader>i", function() Snacks.picker.diagnostics_buffer() end, desc = "LSP Buffer Diagnostics"},
+      { "<leader>u", function() Snacks.picker.diagnostics() end, desc = "LSP Diagnostics"},
+      { "<leader>j", function() Snacks.picker.commands() end, desc = "Commands"},
+      -- { "<leader>k", function() Snacks.picker.buffers() end, desc = "Buffers"},
+      { "<leader>k", function() Snacks.picker.smart() end, desc = "Smart Buffers"},
+      { "<leader>r", function() Snacks.picker.lsp_references() end, desc = "LSP References"},
+      { "<leader>s", function() Snacks.picker.grep() end, desc = "Live Grep"},
       { "<leader>t", function() Snacks.terminal() end, desc = "Toggle Terminal" },
+      { "<leader>x", function() Snacks.picker.help() end, desc = "Help"},
+      { "<leader>y", function() Snacks.picker.jumps() end, desc = "Jump List"},
+      { "<leader>U", function() Snacks.picker.undotree() end, desc = "Undo History"},
+      { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches"},
+      { "<leader>gw", function() Snacks.git.blame_line() end, desc = "Git Blame Line"},
+      { "<leader>,", function() Snacks.picker.keymaps() end, desc = "Keymaps"},
+      { "<leader>;", function() Snacks.picker.command_history() end, desc = "Command History"},
+      { "<leader>/", function() Snacks.picker.search_history() end, desc = "Search History"},
+      -- { "<leader>'", "<cmd>ClangdSwitchSourceHeader<CR>", desc = "CXX Switch Header/Source"},
+      { "<leader>`", function() Snacks.picker.pickers() end, desc = "Pickers"},
       { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
       { "<leader>\\",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
-      { "<leader><CR>", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
     },
   },
 
