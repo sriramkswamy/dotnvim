@@ -101,7 +101,6 @@ return {
   { -- jump to anything
     "folke/flash.nvim",
     event = "VeryLazy",
-    opts = {},
     keys = {
       {
         "s",
@@ -134,7 +133,7 @@ return {
         desc = "Remote Flash",
       },
     },
-    config = function ()
+    opts = {
       modes = {
         -- options used when flash is activated through
         -- a regular search with `/` or `?`
@@ -160,7 +159,7 @@ return {
           jump = { register = false },
         },
       }
-    end
+    }
   },
 
   { -- Seamless navigation between tmux and neovim
