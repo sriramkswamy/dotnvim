@@ -380,6 +380,9 @@ return {
       suppressed_dirs = { "~/", "~/Projects", "~/Downloads", "/" },
       -- log_level = 'debug',
     },
+    keys = {
+      { "<C-g>", "<cmd>AutoSession toggle<CR>", desc = "Toggle AutoSession" },
+    },
   },
 
 }
