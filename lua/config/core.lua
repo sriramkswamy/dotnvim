@@ -273,10 +273,10 @@ return {
       -- { "<C-k>", mode = {"i"}, function() vim.lsp.buf.signature_help() end, desc = "LSP Signature Help"},
       { "<leader>c", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols"},
       { "<leader>d", function() Snacks.picker.git_files() end, desc = "Git Files"},
-      { "<leader>f", function() Snacks.picker.diagnostics_buffer() end, desc = "File Diagnostics"},
+      -- { "<leader>f", function() Snacks.picker.diagnostics_buffer() end, desc = "File Diagnostics"},
       -- { "<leader>h", function() Snacks.picker.actions() end, desc = "LSP Code Actions"},
       { "<leader>h", function() vim.lsp.buf.code_action() end, desc = "LSP Code Actions"},
-      { "<leader>i", function() Snacks.picker.diagnostics() end, desc = "LSP Diagnostics"},
+      { "<leader>f", function() Snacks.picker.diagnostics() end, desc = "LSP Diagnostics"},
       { "<leader>j", function() Snacks.picker.commands() end, desc = "Commands"},
       -- { "<leader>k", function() Snacks.picker.buffers() end, desc = "Buffers"},
       { "<leader>k", function() Snacks.picker.smart() end, desc = "Smart Buffers"},
@@ -288,11 +288,11 @@ return {
       { "<leader>y", function() Snacks.picker.jumps() end, desc = "Jump List"},
       { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches"},
       { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File"},
-      { "<leader>gg", function() Snacks.picker.git_status() end, desc = "Git Status"},
+      { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status"},
       { "<leader>gh", function() Snacks.picker.git_diff() end, desc = "Git Hunks"},
       { "<leader>gl", function() Snacks.picker.git_log_line() end, desc = "Git Log Line"},
       { "<leader>go", function() Snacks.picker.git_log() end, desc = "Git Log"},
-      { "<leader>gs", function() Snacks.picker.git_stash() end, desc = "Git Stash"},
+      { "<leader>gt", function() Snacks.picker.git_stash() end, desc = "Git Stash"},
       { "<leader>gw", function() Snacks.git.blame_line() end, desc = "Git Blame Line"},
       { "<leader>,", function() Snacks.picker.keymaps() end, desc = "Keymaps"},
       { "<leader>;", function() Snacks.picker.command_history() end, desc = "Command History"},
@@ -372,7 +372,7 @@ return {
     end
   },
 
-  {
+  { -- preview definitions in floating windows
     "rmagatti/goto-preview",
     dependencies = { "rmagatti/logger.nvim" },
     event = "BufEnter",
@@ -383,7 +383,7 @@ return {
     }
   },
 
-  {
+  { -- session management
     "rmagatti/auto-session",
     lazy = false,
     ---enables autocomplete for opts
@@ -395,6 +395,24 @@ return {
     },
     keys = {
       { "<C-g>", "<cmd>AutoSession toggle<CR>", desc = "Toggle AutoSession" },
+    },
+  },
+
+  { -- diagnostics
+    "folke/trouble.nvim",
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    cmd = "Trouble",
+    keys = {
+      {
+        "<leader>i",
+        "<cmd>Trouble diagnostics toggle<cr>",
+        desc = "Diagnostics (Trouble)",
+      },
+      {
+        "T",
+        "<cmd>Trouble symbols toggle focus=false<cr>",
+        desc = "Symbols (Trouble)",
+      },
     },
   },
 
