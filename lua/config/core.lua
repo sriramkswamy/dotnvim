@@ -287,12 +287,13 @@ return {
       { "<leader>s", mode = {"n", "x"}, function() Snacks.picker.grep() end, desc = "Live Grep"},
       { "<leader>t", function() Snacks.terminal() end, desc = "Toggle Terminal" },
       { "<leader>u", mode = {"n", "x"}, function() Snacks.picker.undotree() end, desc = "Undo History"},
-      { "<leader>gb", function() Snacks.picker.git_branches() end, desc = "Git Branches"},
+      { "<leader>ge", function() Snacks.terminal("tig") end, desc = "Toggle Tig" },
       { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File"},
-      { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status"},
       { "<leader>gg", function() Snacks.picker.git_diff() end, desc = "Git Hunks"},
       { "<leader>gl", function() Snacks.picker.git_log_line() end, desc = "Git Log Line"},
       { "<leader>go", function() Snacks.picker.git_log() end, desc = "Git Log"},
+      { "<leader>gr", function() Snacks.picker.git_branches() end, desc = "Git Branches"},
+      { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status"},
       { "<leader>gt", function() Snacks.picker.git_stash() end, desc = "Git Stash"},
       { "<leader>gw", function() Snacks.git.blame_line() end, desc = "Git Blame Line"},
       { "<leader>,", mode = {"n", "x"}, function() Snacks.picker.keymaps() end, desc = "Keymaps"},
@@ -361,7 +362,9 @@ return {
     ---@module 'overseer'
     ---@type overseer.SetupOpts
     opts = {},
+    cmd = { 'OverseerShell', 'OverseerRun', 'OverseerToggle', 'OverseerOpen', 'OverseerClose' },
     keys = {
+      { '<leader>gk', '<cmd>OverseerShell gitk<cr>', 'n', silent = true, desc = 'Open Gitk' },
       { '<leader>po', '<cmd>OverseerToggle<cr>', 'n', silent = true, desc = 'Oversee Tasks' },
       { '<leader>pr', '<cmd>OverseerRun<cr>', 'n', silent = true, desc = 'Run Tasks' },
       { '<leader>ps', '<cmd>OverseerShell<cr>', 'n', silent = true, desc = 'Shell Task' },
