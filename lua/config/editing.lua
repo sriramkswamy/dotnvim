@@ -13,6 +13,17 @@ return {
   -- extend repeat
   'tpope/vim-repeat',
 
+  { -- easy snippet creation
+    "chrisgrieser/nvim-scissors",
+    -- opts = {
+    --   snippetDir = "path/to/your/snippetFolder",
+    -- },
+    keys = {
+      { "<leader><CR>", mode = { "n", "x" }, function() require("scissors").addNewSnippet() end, desc = "Add Snippet" },
+      { "<leader>\\", function() require("scissors").editNewSnippet() end, desc = "Edit Snippet" },
+    }
+  },
+
   { -- format code
     'stevearc/conform.nvim',
     ft = { "lua", "python", "cpp", "javascript", "typescript", "json", "html", "css", "markdown", "bash" },

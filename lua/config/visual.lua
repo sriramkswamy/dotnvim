@@ -157,6 +157,11 @@ return {
         virtual_text = false, -- disable default virtual text
       })
     end
-  }
+  },
+
+  { -- show LSP inlay hints where supported only at the end of the line
+    "chrisgrieser/nvim-lsp-endhints",
+    opts = {}, -- required, even if empty
+  },
 
 }
