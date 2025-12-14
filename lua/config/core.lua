@@ -297,7 +297,7 @@ return {
       { "<leader>gr", function() Snacks.picker.git_branches() end, desc = "Git Branches"},
       { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status"},
       { "<leader>gt", function() Snacks.picker.git_stash() end, desc = "Git Stash"},
-      { "<leader>gw", function() Snacks.git.blame_line() end, desc = "Git Blame Line"},
+      { "<leader>gc", function() Snacks.git.blame_line() end, desc = "Git Last Change"},
       { "<leader>,", mode = {"n", "x"}, function() Snacks.picker.keymaps() end, desc = "Keymaps"},
       { "<leader>;", mode = {"n", "x"}, function() Snacks.picker.command_history() end, desc = "Command History"},
       { "<leader>/", function() Snacks.picker.search_history() end, desc = "Search History"},
