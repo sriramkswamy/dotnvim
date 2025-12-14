@@ -20,7 +20,7 @@ return {
     -- },
     keys = {
       { "<leader><CR>", mode = { "n", "x" }, function() require("scissors").addNewSnippet() end, desc = "Add Snippet" },
-      { "<leader>\\", function() require("scissors").editNewSnippet() end, desc = "Edit Snippet" },
+      { "<leader>\\", function() require("scissors").editSnippet() end, desc = "Edit Snippet" },
     }
   },
 
@@ -135,6 +135,39 @@ return {
 
   -- Custom operator framework - configuration defined in viml/functions.vim
   'kana/vim-operator-user',
+
+  { -- todo list
+    "bngarren/checkmate.nvim",
+    ft = "markdown", -- Lazy loads for Markdown files matching patterns in 'files'
+    opts = {
+      -- files = { "*.md" }, -- any .md file (instead of defaults)
+      keys = false, -- disable default keymaps
+    },
+    keys = {
+      {
+        "<leader>ff",
+        function()
+          local data = vim.fn.stdpath("data")
+          local root = data .. "/snacks/todo"
+          vim.fn.mkdir(root, "p")
+          local file = root .. "/todo.md" -- IMPORTANT: must match checkmate `files` pattern
+          ---@diagnostic disable-next-line: missing-fields
+          Snacks.scratch.open({
+            ft = "markdown",
+            file = file,
+          })
+        end,
+        desc = "Toggle Scratch Todo",
+      },
+      { "<leader>fa", mode = {"n","v"}, "<cmd>Checkmate select_todo<CR>", desc = "Select Todo" },
+      { "<leader>fd", mode = {"n","v"}, "<cmd>Checkmate toggle<CR>", desc = "Toggle Todo" },
+      { "<leader>fh", mode = {"n","v"}, "<cmd>Checkmate archive<CR>", desc = "Archive Todo" },
+      { "<leader>fj", mode = {"n","v"}, "<cmd>Checkmate cycle_next<CR>", desc = "Next Todo" },
+      { "<leader>fk", mode = {"n","v"}, "<cmd>Checkmate cycle_previous<CR>", desc = "Previous Todo" },
+      { "<leader>fl", mode = {"n","v"}, "<cmd>Checkmate remove<CR>", desc = "Remove Todo" },
+      { "<leader>fo", mode = {"n","v"}, "<cmd>Checkmate create<CR>", desc = "Create Todo" },
+    }
+  },
 
   { -- AI Edit Suggestions
     "github/copilot.vim"

@@ -164,4 +164,9 @@ return {
     opts = {}, -- required, even if empty
   },
 
+  { -- markdown preview
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+  },
+
 }
