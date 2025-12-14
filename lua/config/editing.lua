@@ -7,6 +7,19 @@ return {
     }
   },
 
+  { -- Show documentation in a side panel
+    "amrbashir/nvim-docs-view",
+    lazy = true,
+    cmd = "DocsViewToggle",
+    opts = {
+      position = "bottom",
+      height = 20
+    },
+    keys = {
+      { "<BS>", "<cmd>DocsViewToggle<CR>", desc = "Toggle Docs View" }
+    }
+  },
+
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
