@@ -384,7 +384,6 @@ return {
     config = true, -- necessary as per https://github.com/rmagatti/goto-preview/issues/88
     keys = {
       { "J", function() require('goto-preview').goto_preview_definition() end, desc = "LSP Peek Definitions"},
-      { "<BS>", function() require('goto-preview').close_all_win() end, desc = "Close all previews"},
     }
   },
 
