@@ -1,60 +1,23 @@
--- jdtls LSP configuration
-local jdtls = require('jdtls')
+-- If you started neovim within `~/dev/xy/project-1` this would resolve to `project-1`
 local project_name = vim.fn.fnamemodify(vim.fn.getcwd(), ':p:h:t')
-local workspace_dir = vim.env.HOME .. '/jdtls-workspace/' .. project_name
-
--- See `:help vim.lsp.start_client` for an overview of the supported `config` options.
+local workspace_dir = '/path/to/workspace-root/' .. project_name
+-- jdtls LSP configuration
+-- See `:help vim.lsp.start` for an overview of the supported `config` options.
 local config = {
-  -- The command that starts the language server
+  name = "jdtls",
+  -- `cmd` defines the executable to launch eclipse.jdt.ls.
+  -- `jdtls` must be available in $PATH and you must have Python3.9 for this to work.
+  --
+  -- As alternative you could also avoid the `jdtls` wrapper and launch
+  -- eclipse.jdt.ls via the `java` executable
   -- See: https://github.com/eclipse/eclipse.jdt.ls#running-from-the-command-line
   cmd = {
-
-    -- CONFIGURE
-    'java', -- or '/path/to/java17_or_newer/bin/java'
-    -- depends on if `java` is in your $PATH env variable and if it points to the right version.
-
-    '-Declipse.application=org.eclipse.jdt.ls.core.id1',
-    '-Dosgi.bundles.defaultStartLevel=4',
-    '-Declipse.product=org.eclipse.jdt.ls.core.product',
-    '-Dlog.protocol=true',
-    '-Dlog.level=ALL',
-    '-Xmx1g',
-    '--add-modules=ALL-SYSTEM',
-    '--add-opens', 'java.base/java.util=ALL-UNNAMED',
-    '--add-opens', 'java.base/java.lang=ALL-UNNAMED',
-
-    -- CONFIGURE
-    -- ~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher
-    '-jar', '/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
-    -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher.cocoa.macosx.aarch64_1.2.1100.v20240613-2013.jar',
-    -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
-    -- '-jar', '~/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_1.6.900.v20240613-2009.jar',
-    -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                                       ^^^^^^^^^^^^^^
-    -- Must point to the                                                     Change this to
-    -- eclipse.jdt.ls installation                                           the actual version
-
-
-    -- CONFIGURE
-    -- ~/.local/share/nvim/mason/packages/jdtls/config_mac_arm
-    '-configuration', '/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/jdtls/config_mac_arm',
-    -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        ^^^^^^
-    -- Must point to the                      Change to one of `linux`, `win` or `mac`
-    -- eclipse.jdt.ls installation            Depending on your system.
-
-
-    -- CONFIGURE
-    -- See `data directory configuration` section in the README
-    '-data', workspace_dir
+    'jdtls',
+    -- '-data', workspace_dir,
   },
-
-  -- CONFIGURE
-  -- This is the default if not provided, you can remove it. Or adjust as needed.
-  -- One dedicated LSP server & client will be started per unique root_dir
-  --
-  -- vim.fs.root requires Neovim 0.10.
-  -- If you're using an earlier version, use: require('jdtls.setup').find_root({'.git', 'mvnw', 'gradlew'}),
-  root_dir = vim.fs.root(0, {".git", "mvnw", "gradlew", ".maven"}),
-
+  -- `root_dir` must point to the root of your project.
+  -- See `:help vim.fs.root`
+  root_dir = vim.fs.root(0, {'gradlew', '.git', 'mvnw'}),
   -- Here you can configure eclipse.jdt.ls specific settings
   -- See https://github.com/eclipse/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
   -- for a list of options
@@ -62,19 +25,15 @@ local config = {
     java = {
     }
   },
-
-  -- Language server `initializationOptions`
-  -- You need to extend the `bundles` with paths to jar files
-  -- if you want to use additional eclipse.jdt.ls plugins.
+  -- This sets the `initializationOptions` sent to the language server
+  -- If you plan on using additional eclipse.jdt.ls plugins like java-debug
+  -- you'll need to set the `bundles`
   --
-  -- See https://github.com/mfussenegger/nvim-jdtls#java-debug-installation
+  -- See https://codeberg.org/mfussenegger/nvim-jdtls#java-debug-installation
   --
-  -- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
+  -- If you don't plan on any eclipse.jdt.ls plugins you can remove this
   init_options = {
     bundles = {}
   },
-
 }
--- This starts a new client & server,
--- or attaches to an existing client & server depending on the `root_dir`.
-jdtls.start_or_attach(config)
+require('jdtls').start_or_attach(config)

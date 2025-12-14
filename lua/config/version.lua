@@ -4,6 +4,7 @@ return {
     cmd = { 'Git', 'G', 'Gdiffsplit', 'Gread', 'Gwrite', 'Ggrep', 'GMove', 'GDelete', 'GBrowse', 'GRemove', 'GRename', 'Glgrep', 'Gedit' },
     keys = {
       { '<leader>e', ':Git<CR>', desc = 'Git Status' },
+      { '<leader>ga', ':Git log --oneline -100<CR>', desc = 'Git Oneline Log' },
       { '<leader>gb', ':Git blame<CR>', desc = 'Git Blame' },
     }
   },
