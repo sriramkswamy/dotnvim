@@ -5,7 +5,7 @@ return {
     keys = {
       { '<leader>e', ':Git<CR>', desc = 'Git Status' },
       { '<leader>ga', ':Git log --oneline -100<CR>', desc = 'Git Oneline Log' },
-      { '<leader>gb', ':Git blame<CR>', desc = 'Git Blame' },
+      { '<leader>gb', mode = {"n","x"}, ':Git blame<CR>', desc = 'Git Blame' },
     }
   },
 
