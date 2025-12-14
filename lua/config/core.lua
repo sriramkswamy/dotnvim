@@ -41,6 +41,8 @@ return {
           { mode = 'x', keys = '<leader>a' },
           { mode = 'n', keys = '<leader>p' },
           { mode = 'n', keys = '<leader>g' },
+          { mode = 'n', keys = '<leader>x' },
+          { mode = 'n', keys = '<leader>xl' },
           -- Built-in completion
           { mode = 'i', keys = '<C-x>' },
           -- `g` key

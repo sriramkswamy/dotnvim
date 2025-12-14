@@ -17,6 +17,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.lsp.enable("clangd")
   end,
 })
+vim.keymap.set('n', '<leader>xlc', function () vim.lsp.enable('clangd') end, { silent = true, desc = 'Enable LSP clangd' })
 
 -- pyright (Python)
 vim.lsp.config('pyright', {
@@ -49,6 +50,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.lsp.enable("pyright")
   end,
 })
+vim.keymap.set('n', '<leader>xlp', function () vim.lsp.enable('pyright') end, { silent = true, desc = 'Enable LSP pyright' })
 
 -- lua_ls (Lua)
 vim.lsp.config('lua_ls', {
@@ -90,6 +92,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.lsp.enable("lua_ls")
   end,
 })
+vim.keymap.set('n', '<leader>xll', function () vim.lsp.enable('lua_ls') end, { silent = true, desc = 'Enable LSP lua_ls' })
 
 -- viml (vimscript)
 vim.lsp.config('vimls', {
@@ -109,6 +112,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.lsp.enable("vimls")
   end,
 })
+vim.keymap.set('n', '<leader>xlv', function () vim.lsp.enable('vimls') end, { silent = true, desc = 'Enable LSP vimls' })
 
 -- marksman (Markdown)
 vim.lsp.config('markdown', {
