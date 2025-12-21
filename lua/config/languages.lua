@@ -13,4 +13,17 @@ return {
     ft = 'cs',
   },
 
+  { -- python venv management
+    "neolooong/whichpy.nvim",
+    dependencies = {
+      -- "mfussenegger/nvim-dap-python", -- optional for debugging support
+    },
+    ft = 'python',
+    cmd = { "WhichPy" },
+    opts = {},
+    keys = {
+      { "<leader>xv", "<cmd>WhichPy select<CR>", desc = "Select Python Virtualenv" },
+    },
+  }
+
 }
