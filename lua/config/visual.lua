@@ -186,4 +186,9 @@ return {
     lazy = false,
   },
 
+  { -- better looking help documentation
+    "OXY2DEV/helpview.nvim",
+    lazy = false
+  },
+
 }
