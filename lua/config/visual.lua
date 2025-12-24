@@ -147,6 +147,13 @@ return {
     end,
   },
 
+  { -- preview lines when going to line number with :
+    "nacro90/numb.nvim",
+    config = function ()
+      require("numb").setup()
+    end,
+  },
+
   { -- pretty inline diagnostics
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy",

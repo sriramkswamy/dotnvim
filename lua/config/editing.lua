@@ -182,6 +182,24 @@ return {
     }
   },
 
+  { -- easy logging for print debug statements
+    "chrisgrieser/nvim-chainsaw",
+    event = "VeryLazy",
+    opts = {},
+    keys = {
+      { "<leader>ya", mode = {"n","x"}, function() require("chainsaw").assertLog() end, desc = "Log Assert" },
+      { "<leader>yc", mode = {"n","x"}, function() require("chainsaw").clearLog() end, desc = "Log Clear" },
+      { "<leader>yd", mode = {"n","x"}, function() require("chainsaw").debugLog() end, desc = "Log Debug" },
+      { "<leader>yi", mode = {"n","x"}, function() require("chainsaw").timeLog() end, desc = "Log Time" },
+      { "<leader>ym", mode = {"n","x"}, function() require("chainsaw").messageLog() end, desc = "Log Message" },
+      { "<leader>yo", mode = {"n","x"}, function() require("chainsaw").objectLog() end, desc = "Log Object" },
+      { "<leader>yr", mode = {"n","x"}, function() require("chainsaw").removeLogs() end, desc = "Log Remove" },
+      { "<leader>ys", mode = {"n","x"}, function() require("chainsaw").stacktraceLog() end, desc = "Log Stacktrace" },
+      { "<leader>yt", mode = {"n","x"}, function() require("chainsaw").typeLog() end, desc = "Log Type" },
+      { "<leader>yv", mode = {"n","x"}, function() require("chainsaw").variableLog() end, desc = "Log Variable" },
+    }
+  },
+
   { -- AI Edit Suggestions
     "github/copilot.vim"
   },
