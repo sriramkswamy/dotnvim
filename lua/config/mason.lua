@@ -11,32 +11,17 @@ return {
         "github:Crashdummyy/mason-registry",
       },
       ensure_installed = {
-        "lua-language-server",
-        "stylua",
-
-        "pyright",
-        "isort",
-        "black",
-
-        "clangd",
-        "clang-format",
-
+        "lua-language-server", "stylua",
+        "pyright", "isort", "black",
+        "clangd", "clang-format",
         "marksman",
-
         "jdtls",
-
-        "html-lsp",
-        "css-lsp",
+        "html-lsp", "css-lsp",
+        "eslint-lsp", "typescript-language-server",
         "json-lsp",
-        "eslint-lsp",
-        "typescript-language-server",
-        "prettier",
-        "prettierd",
-
-        "roslyn",
-
+        "prettier", "prettierd",
+        "roslyn", "csharpier", "rzls",
         "bashls",
-
         "copilot"
       },
     }
