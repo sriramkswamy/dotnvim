@@ -159,6 +159,16 @@ return {
     end
   },
 
+  { -- better visualization for code actions
+    "rachartier/tiny-code-action.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
+    keys = {
+      { "<leader>h", function() require("tiny-code-action").code_action() end, desc = "Code Action",
+      },
+    },
+  },
+
   { -- show LSP inlay hints where supported only at the end of the line
     "chrisgrieser/nvim-lsp-endhints",
     opts = {}, -- required, even if empty

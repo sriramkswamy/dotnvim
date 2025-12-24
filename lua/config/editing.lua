@@ -172,13 +172,13 @@ return {
         end,
         desc = "Toggle Scratch Todo",
       },
-      { "<leader>fa", mode = {"n","v"}, "<cmd>Checkmate select_todo<CR>", desc = "Select Todo" },
-      { "<leader>fd", mode = {"n","v"}, "<cmd>Checkmate toggle<CR>", desc = "Toggle Todo" },
+      { "<leader>fa", mode = {"n","v"}, "<cmd>Checkmate toggle<CR>", desc = "Toggle Todo" },
+      { "<leader>fd", mode = {"n","v"}, "<cmd>Checkmate remove<CR>", desc = "Delete Todo" },
       { "<leader>fh", mode = {"n","v"}, "<cmd>Checkmate archive<CR>", desc = "Archive Todo" },
       { "<leader>fj", mode = {"n","v"}, "<cmd>Checkmate cycle_next<CR>", desc = "Next Todo" },
       { "<leader>fk", mode = {"n","v"}, "<cmd>Checkmate cycle_previous<CR>", desc = "Previous Todo" },
-      { "<leader>fl", mode = {"n","v"}, "<cmd>Checkmate remove<CR>", desc = "Remove Todo" },
-      { "<leader>fo", mode = {"n","v"}, "<cmd>Checkmate create<CR>", desc = "Create Todo" },
+      { "<leader>fn", mode = {"n","v"}, "<cmd>Checkmate create<CR>", desc = "New Todo" },
+      { "<leader>fs", mode = {"n","v"}, "<cmd>Checkmate select_todo<CR>", desc = "Select Todo" },
     }
   },
 
