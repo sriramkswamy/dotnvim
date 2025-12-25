@@ -10,7 +10,9 @@ return {
 
   { -- CSharp support
     'seblyng/roslyn.nvim',
-    ft = 'cs',
+    ft = {'cs', 'razor'},
+    cmd = { "Roslyn" },
+    opts = {},
   },
 
   { -- python venv management

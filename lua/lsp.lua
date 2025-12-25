@@ -128,3 +128,27 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 vim.keymap.set('n', '<leader>xlm', function () vim.lsp.enable('markdown') end, { silent = true, desc = 'Enable LSP markdown' })
+
+-- roslyn (C#)
+vim.lsp.config("roslyn", {
+  -- cmd = {
+  --   "/usr/local/share/dotnet/dotnet",
+  --   "/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/roslyn/libexec/Microsoft.CodeAnalysis.LanguageServer.dll",
+  --   "--logLevel", -- this property is required by the server
+  --   "Information",
+  --   "--extensionLogDirectory", -- this property is required by the server
+  --   -- fs.joinpath(uv.os_tmpdir(), "roslyn_ls/logs"),
+  --   "--stdio",
+  -- },
+  -- on_attach = lsp_on_attach,
+  -- settings = {
+  --   ["csharp|inlay_hints"] = {
+  --     csharp_enable_inlay_hints_for_implicit_object_creation = true,
+  --     csharp_enable_inlay_hints_for_implicit_variable_types = true,
+  --   },
+  --   ["csharp|code_lens"] = {
+  --     dotnet_enable_references_code_lens = true,
+  --   },
+  -- },
+})
+vim.keymap.set('n', '<leader>xls', function () vim.lsp.enable('roslyn') end, { silent = true, desc = 'Enable LSP csharp' })
