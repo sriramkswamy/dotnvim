@@ -133,7 +133,7 @@ vim.keymap.set('n', '<leader>xlm', function () vim.lsp.enable('markdown') end, {
 vim.lsp.config("roslyn", {
   -- cmd = {
   --   "/usr/local/share/dotnet/dotnet",
-  --   "/Users/sriramkrishnaswamy/.local/share/nvim/mason/packages/roslyn/libexec/Microsoft.CodeAnalysis.LanguageServer.dll",
+  --   "$HOME/.local/share/nvim/mason/packages/roslyn/libexec/Microsoft.CodeAnalysis.LanguageServer.dll",
   --   "--logLevel", -- this property is required by the server
   --   "Information",
   --   "--extensionLogDirectory", -- this property is required by the server
